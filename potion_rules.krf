@@ -28,20 +28,20 @@
 (isa PotionRecipees Collection) 
 (genls PotionRecipees Plan)
 
-;;; potion plan is the relationship, so we define each potion plan as having a potion and a potion recipee 
+;;; potionHasRecipee is the relationship, so we define each potionHasRecipee as having a potion and a potion recipee 
 (isa potionHasRecipee BinaryPredicate)
 (arg1Isa potionHasRecipee Potion)
 (arg2Isa potionHasRecipee PotionRecipees)
 
-;;; now let's define the potion plan itself 
-;;; each potionHasRecipee has multiple steps 
+;;; each potionHasRecipee has multiple steps we call potion step
 (isa potionStep Collection)
-(genls potionStep Action)
 
-(isa StepInPlan BinaryPredicate)
-(arg1Isa StepInPlan PotionRecipees)
-(arg2Isa StepInPlan potionStep)
+;;; hassteps is predicate between potion steps and the recipee 
+(isa hasSteps BinaryPredicate)
+(arg1Isa hasSteps PotionRecipees)
+(arg2Isa hasSteps potionStep)
 
+;;; we define the relationships between the steps using precedes steps 
 (isa precedesStep BinaryPredicate) ;;; K1 precedes K2 
 (arg1Isa precedesStep potionStep)
 (arg2Isa precedesStep potionStep)
