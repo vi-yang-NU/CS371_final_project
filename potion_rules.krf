@@ -1,0 +1,22 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: potion_rules.krf 
+;;;;    System: FIRE
+;;;;    Author: VI yang 
+;;;;   Created: Feb 20 
+;;;;   Purpose: 371 Final Assignment, General rules for potions 
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Friday, Feb 20th 
+;;;; ---------------------------------------------------------------------------
+
+(in-microtheory HarryPotterPotionsMt)
+(isa HarryPotterPotionsMt Microtheory)
+(comment HarryPotterPotionsMt
+  "The HarryPotterPotionsMt microtheory is for storing our Microtheory for making harry potter potions.")
+
+;; define a collection for potion 
+(isa Potion Collection)
+(genls Potion Artifact)
+(comment Potion
+  "Every Potion is defined as an Artifact")
+;;; potion has a plan , and has steps in plan, and steps in plan has precedes 

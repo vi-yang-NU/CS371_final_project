@@ -1,0 +1,50 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: ingredient-rules.krf 
+;;;;    System: FIRE
+;;;;    Author: VI yang 
+;;;;   Created: Feb 20 
+;;;;   Purpose: 371 Final Assignment 
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Friday, Feb 20th 
+;;;; ---------------------------------------------------------------------------
+
+(in-microtheory HarryPotterPotionsMt)
+(isa HarryPotterPotionsMt Microtheory)
+(comment HarryPotterPotionsMt
+  "The HarryPotterPotionsMt microtheory is for storing our Microtheory for making harry potter potions.")
+
+;;; define our new predicates 
+(isa haveIngredient UnaryPredicate)
+(comment haveIngredient
+  "Do we have all the ingredients for a potion.")
+(arg1Isa haveIngredient PartiallyTangible)
+
+(isa canMake UnaryPredicate)
+(comment haveIngredient
+  "Can we make this potion given a list of ingredients.")
+(arg1Isa canMake Potion)
+
+;;;
+;;;
+;;; CURE BOILS 
+;;;
+;;; Do we have all the ingredients for Cure_Boils 
+
+(<== (haveIngredient Cure_Boils) 
+(ingredients Cure_Boils SnakeFangs)
+(ingredients Cure_Boils HornedSlugs) 
+(ingredients Cure_Boils PorcupineQuills))
+
+;;; Can we make Cure_Boils potion right now ?
+
+(<== (canMake Cure_Boils)
+    (haveIngredient SnakeFangs)
+    (haveIngredient HornedSlugs)
+    (haveIngredient PorcupineQuills))
+
+;;;
+;;;
+;;;
+;;;
+;;;
