@@ -32,16 +32,3 @@
 (isa potionHasRecipee BinaryPredicate)
 (arg1Isa potionHasRecipee Potion)
 (arg2Isa potionHasRecipee PotionRecipees)
-
-;;; each potionHasRecipee has multiple steps we call potion step
-(isa potionStep Collection)
-
-;;; hassteps is predicate between potion steps and the recipee 
-(isa hasSteps BinaryPredicate)
-(arg1Isa hasSteps PotionRecipees)
-(arg2Isa hasSteps potionStep)
-
-;;; we define the relationships between the steps using precedes steps 
-(isa precedesStep BinaryPredicate) ;;; K1 precedes K2 
-(arg1Isa precedesStep potionStep)
-(arg2Isa precedesStep potionStep)

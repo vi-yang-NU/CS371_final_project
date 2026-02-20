@@ -1,32 +1,84 @@
-; we know that it is in the harry potter universe
-(in HarryPotterPotionMt)
+;;; we know that it is in the harry potter universe
 (in CureBoilPotionMt)
 
-; we know that this potion is considered a mixture
-(isa Cure_Boils Potion)
+;;; we know that this potion is considered a mixture
+(Potion Cure_Boils_Potion)
+(PotionRecipees Cure_Boils_Recipe)
+(potionHasRecipee Cure_Boils_Potion Cure_Boils_Recipe)
 
-; a potion has a 
-(isa planForMixture Predicate)
-(arity planForMixture 2)
-(arg1Isa planForMixture Plan)
-(arg2Isa planForMixture Potion)
-(comment planForMixture "Plan whose execution produces a given mixture.")
+;;; each potionHasRecipee has multiple steps we call potion step
+(isa potionStep Collection)
+
+;;; hassteps is predicate between potion steps and the recipee 
+(isa hasSteps BinaryPredicate)
+(arg1Isa hasSteps PotionRecipees)
+(arg2Isa hasSteps potionStep)
+
+;;; we define the relationships between the steps using precedes steps 
+(isa precedesStep BinaryPredicate) ;;; K1 precedes K2 
+(arg1Isa precedesStep potionStep)
+(arg2Isa precedesStep potionStep)
 
 
-; create all of the steps to make the potion
-(isa CB_Step1 StepsInPlan)
-(recipeStep Cure_Boils CB_Step1)
-(isa CB_Step2 StepsInPlan)
-(isa CB_Step3 StepsInPlan)
-(isa CB_Step4 StepsInPlan)
-(isa CB_Step5 StepsInPlan)
-(isa CB_Step6 StepsInPlan)
-(isa CB_Step7 StepsInPlan)
-(isa CB_Step8 StepsInPlan)
-(isa CB_Step9 StepsInPlan)
-(isa CB_Step10 StepsInPlan)
 
-(recipeStep Cure_Boils CB_Step1)
-(recipeStep Cure_Boils CB_Step2)
-...
-(recipeStep Cure_Boils CB_Step10)
+;;; create all of the steps to make the potion
+(potionStep CB_Step1)
+(potionStep CB_Step2)
+(potionStep CB_Step3)
+(potionStep CB_Step4)
+(potionStep CB_Step5)
+(potionStep CB_Step6)
+(potionStep CB_Step7)
+(potionStep CB_Step8)
+(potionStep CB_Step9)
+(potionStep CB_Step10)
+
+
+(hasSteps Cure_Boils_Recipe CB_Step1)
+Potion Cure
+
+
+;;; Put steps into the plan
+(stepsInPlan Cure_Boils_Recipe CB_Step1)
+(stepsInPlan Cure_Boils_Recipe CB_Step2)
+(stepsInPlan Cure_Boils_Recipe CB_Step3)
+(stepsInPlan Cure_Boils_Recipe CB_Step4)
+(stepsInPlan Cure_Boils_Recipe CB_Step5)
+(stepsInPlan Cure_Boils_Recipe CB_Step6)
+(stepsInPlan Cure_Boils_Recipe CB_Step7)
+(stepsInPlan Cure_Boils_Recipe CB_Step8)
+(stepsInPlan Cure_Boils_Recipe CB_Step9)
+(stepsInPlan Cure_Boils_Recipe CB_Step10)
+
+;;; Ordering (precedes constraints)
+(precedesInSeries CB_Step1 CB_Step2)
+(precedesInSeries CB_Step2 CB_Step3)
+(precedesInSeries CB_Step3 CB_Step4)
+(precedesInSeries CB_Step4 CB_Step5)
+(precedesInSeries CB_Step5 CB_Step6)
+(precedesInSeries CB_Step6 CB_Step7)
+(precedesInSeries CB_Step7 CB_Step8)
+(precedesInSeries CB_Step8 CB_Step9)
+(precedesInSeries CB_Step9 CB_Step10)
+
+
+Cure_Boils
+Ingredients:
+Snake fangs
+Horned slugs
+Porcupine quills
+Instructions:
+Part 1
+Add 6 snake fangs to the mortar.
+Crush into a fine powder using the pestle.
+Add 4 measures of the crushed fangs to your cauldron.
+Heat the mixture to 250 for 10 seconds.
+Wave your wand.
+Leave to brew and return in 33-45 minutes.[1]
+Part 2
+Add 4 horned slugs to your cauldron.
+Take the cauldron off the fire before adding the next ingredient.[2]
+Add 2 porcupine quills to your cauldron.
+Stir 5 times, clockwise.
+Wave your wand to complete the potion.[1]
+
