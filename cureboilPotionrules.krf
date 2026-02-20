@@ -1,0 +1,32 @@
+; we know that it is in the harry potter universe
+(in HarryPotterPotionMt)
+(in CureBoilPotionMt)
+
+; we know that this potion is considered a mixture
+(isa Cure_Boils Potion)
+
+; a potion has a 
+(isa planForMixture Predicate)
+(arity planForMixture 2)
+(arg1Isa planForMixture Plan)
+(arg2Isa planForMixture Potion)
+(comment planForMixture "Plan whose execution produces a given mixture.")
+
+
+; create all of the steps to make the potion
+(isa CB_Step1 StepsInPlan)
+(recipeStep Cure_Boils CB_Step1)
+(isa CB_Step2 StepsInPlan)
+(isa CB_Step3 StepsInPlan)
+(isa CB_Step4 StepsInPlan)
+(isa CB_Step5 StepsInPlan)
+(isa CB_Step6 StepsInPlan)
+(isa CB_Step7 StepsInPlan)
+(isa CB_Step8 StepsInPlan)
+(isa CB_Step9 StepsInPlan)
+(isa CB_Step10 StepsInPlan)
+
+(recipeStep Cure_Boils CB_Step1)
+(recipeStep Cure_Boils CB_Step2)
+...
+(recipeStep Cure_Boils CB_Step10)
