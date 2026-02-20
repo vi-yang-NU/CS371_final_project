@@ -9,10 +9,10 @@
 ;;;;  modified: Friday, Feb 20th 
 ;;;; ---------------------------------------------------------------------------
 
-(in-microtheory HarryPotterPotionsMt)
-(isa HarryPotterPotionsMt Microtheory)
-(comment HarryPotterPotionsMt
-  "The HarryPotterPotionsMt microtheory is for storing our Microtheory for making harry potter potions.")
+(in-microtheory HarryPotterIngredientsMt)
+(isa HarryPotterIngredientsMt Microtheory)
+(comment HarryPotterIngredientsMt
+  "Microtheory that has the ontology/facts about ingredients")
 
 ;;; define our new predicates 
 (isa haveIngredient UnaryPredicate)

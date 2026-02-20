@@ -13,6 +13,9 @@
 (isa HarryPotterPotionsMt Microtheory)
 (comment HarryPotterPotionsMt
   "The HarryPotterPotionsMt microtheory is for storing our Microtheory for making harry potter potions.")
+  
+;;; we want the potions to be able to see the ingredients 
+(genlMt HarryPotterPotionsMt HarryPotterIngredientsMt)
 
 ;; define a collection for potion 
 (isa Potion Collection)
@@ -20,3 +23,24 @@
 (comment Potion
   "Every Potion is defined as an Artifact")
 ;;; potion has a plan , and has steps in plan, and steps in plan has precedes 
+
+;;; define instance of a planning collection  
+(isa PotionBrewingRecipee Collection) 
+(genls PotionBrewingRecipee Plan)
+
+;;; each potion plan belongs to a potion recipee 
+(isa PotionPlan BinaryPredicate)
+(arg1Isa PotionPlan Potion)
+(arg2Isa PotionPlan PotionBrewingRecipee)
+
+;;; each potionPlan has multiple steps 
+(isa potionStep Collection)
+(genls potionStep Action)
+
+(isa StepInPlan BinaryPredicate)
+(arg1Isa StepInPlan PotionPlan)
+(arg2Isa StepInPlan potionStep)
+
+(isa precedesStep BinaryPredicate) ;;; K1 precedes K2 
+(arg1Isa precedesStep potionStep)
+(arg2Isa precedesStep potionStep)
