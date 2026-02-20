@@ -25,20 +25,21 @@
 ;;; potion has a plan , and has steps in plan, and steps in plan has precedes 
 
 ;;; define instance of a planning collection  
-(isa PotionBrewingRecipee Collection) 
-(genls PotionBrewingRecipee Plan)
+(isa PotionRecipees Collection) 
+(genls PotionRecipees Plan)
 
-;;; each potion plan belongs to a potion recipee 
-(isa PotionPlan BinaryPredicate)
-(arg1Isa PotionPlan Potion)
-(arg2Isa PotionPlan PotionBrewingRecipee)
+;;; potion plan is the relationship, so we define each potion plan as having a potion and a potion recipee 
+(isa potionHasRecipee BinaryPredicate)
+(arg1Isa potionHasRecipee Potion)
+(arg2Isa potionHasRecipee PotionRecipees)
 
-;;; each potionPlan has multiple steps 
+;;; now let's define the potion plan itself 
+;;; each potionHasRecipee has multiple steps 
 (isa potionStep Collection)
 (genls potionStep Action)
 
 (isa StepInPlan BinaryPredicate)
-(arg1Isa StepInPlan PotionPlan)
+(arg1Isa StepInPlan PotionRecipees)
 (arg2Isa StepInPlan potionStep)
 
 (isa precedesStep BinaryPredicate) ;;; K1 precedes K2 
