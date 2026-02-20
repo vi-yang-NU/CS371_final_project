@@ -1,0 +1,60 @@
+(in-microtheory EvanstonMt)
+(comment EvanstonMt
+ "EvanstonMt contains some basic facts about Evanston IL for 371 testing.")
+(genlMt 371TestMt EvanstonMt)
+
+;;; You'll need to ontologize
+;;; CollectivoCoffee
+;;; Starbucks
+;;; BookendsAndBeginningsBookstore
+;;; DavilDawgsRestaurant
+;;; TechExpress
+;;; LeTourRestaurant
+;;; TheBarnRestaurant
+
+;;; Coffee shops / tech cafe: WiFi, caffeine, lingering (all three -> inferable as CS-Hangout)
+(isa CollectivoCoffee Place)
+(hasWiFiConnection CollectivoCoffee)
+(canServeJustCaffeine CollectivoCoffee)
+(allowsLingering CollectivoCoffee)
+
+(isa Starbucks Place)
+(hasWiFiConnection Starbucks)
+(canServeJustCaffeine Starbucks)
+(allowsLingering Starbucks)
+
+(isa TechExpress Place)
+(hasWiFiConnection TechExpress)
+(canServeJustCaffeine TechExpress)
+(allowsLingering TechExpress)
+
+
+;;; Bookstore: WiFi and lingering, no just-caffeine focus (two rules)
+(isa BookendsAndBeginningsBookstore Place)
+(hasWiFiConnection BookendsAndBeginningsBookstore)
+(allowsLingering BookendsAndBeginningsBookstore)
+
+
+;;; Restaurants: WiFi and lingering, not “just caffeine” (two rules)
+(isa DevilDawgsRestaurant Place)
+(hasWiFiConnection DevilDawgsRestaurant)
+(allowsLingering DevilDawgsRestaurant)
+
+
+;;; Restaurant: lingering only—no WiFi, not just caffeine (one rule)
+(isa LeTourRestaurant Place)
+(allowsLingering LeTourRestaurant)
+
+
+;;; Restaurant with coffee bar: caffeine + lingering, no WiFi (two rules)
+(isa TheBarnRestaurant Place)
+(canServeJustCaffeine TheBarnRestaurant)
+(allowsLingering TheBarnRestaurant)
+
+;;; please use appropriate isa statements and comment statements to indicate your
+;;; intended representations. This should not be in terms of this particular task,
+;;; i.e. you cannot state directly that something is a CS Hangout, that is to be
+;;; inferred by your rules.
+;;;
+;;; Then, define properties of these places using the predicates from hangout-ontology.krf
+;;; For example, you want to say that TechExpress has WiFi, etc.

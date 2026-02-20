@@ -1,0 +1,37 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: hangout-rules.meld
+;;;;    System: FIRE
+;;;;    Author: Ken Forbus
+;;;;   Created: January 20, 2011 16:16:29
+;;;;   Purpose: 371 Assignment three
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Thursday, January 23, 2014
+;;;; ---------------------------------------------------------------------------
+
+(in-microtheory 371TestRulesMt)
+
+(isa 371TestRulesMt Microtheory)
+(comment 371TestRulesMt
+  "The 371TestRulesMt microtheory is for testing Horn-clause rules,
+   as used via FIRE's query procedure.")
+
+(genlMt 371TestMt 371TestRulesMt)
+
+;;; Define your Horn clause rules here, for recognizing that something is
+;;; a CS hangout.  
+
+
+;;; We know the place has to have wificonnection, serves caffeine, and allows lingering
+;;; so we add those to the isa place 
+(<== (isa ?place CS-Hangout)
+(hasWiFiConnection ?place)  
+(canServeJustCaffeine ?place)
+(allowsLingering ?place))
+
+;;; A CS Hangout must have WiFi, caffeine, and allow lingering for hours.
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; End of Code

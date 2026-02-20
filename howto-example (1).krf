@@ -1,0 +1,45 @@
+(in-microtheory HowTo-HornClausesMt)
+(isa HowTo-HornClausesMt Microtheory)
+(comment HowTo-HornClausesMt
+  "HowTo-HornClausesMt is an example of how to write and debug Horn clauses in FIRE.")
+(genlMt HowTo-HornClausesMt KioskDataMt) ;; Uses knowledge from the CS Kiosk
+
+(isa NUBasicCSClass Collection)
+(genls NUBasicCSClass NUClass-CS)
+(comment NUBasicCSClass
+ "A course is an NUBasicCSClass if it is a computer science course that isn't part of an advanced area
+ of study.")
+ (isa COMP_SCI-111-FundamentalsOfComputerProgrammingI NUBasicCSClass)
+ (isa COMP_SCI-217-DataManagementAndInformationProcessing NUBasicCSClass)
+ (isa COMP_SCI-376-GameDesignAndDevelopment NUBasicCSClass)
+ (isa COMP_SCI-394-AgileSoftwareDevelopment NUBasicCSClass)
+
+
+;;; Estimating what area a course is in by who teaches it
+
+(isa fieldOfAcademicGroup Predicate)
+(arity fieldOfAcademicGroup 2)
+(arg1Isa fieldOfAcademicGroup )
+(arg2Isa fieldOfAcademicGroup FieldOfStudy)
+(comment fieldOfAcademicGroup
+ "(fieldOfAcademicGroup ?group ?field) indicates that the faculty and students in group ?group
+  work in the field ?field.")
+
+(fieldOfAcademicGroup NUArtificialIntelligence ArtificialIntelligence)
+(fieldOfAcademicGroup NUTheory ComputerScienceTheory)
+(fieldOfAcademicGroup NUSystemsAndNetworking ComputerScienceSystems)
+
+(isa csNUCourseInArea Predicate)
+(arity csNUCourseInArea 2)
+(arg1Isa csNUCourseInArea NUClass-CS)
+(arg2Isa csNUCourseInArea FieldOfStudy)
+(comment csNUCourseInArea
+"(csNUCourseInArea ?course ?area) indicates that the Northwestern University CS Department
+ course ?course involves area ?area.")
+
+(<== (csNUCourseInArea ?course ?area)
+     (fieldOfAcademicGroup ?group ?area) ;; Figure out the research group
+     (nuGroupMember ?group ?prof) ;; Find a research group member
+     (courseInstructor ;; See what course they teach, or if they teach the course in question
+       (CourseOfferingFn ?course ?quarter) ?prof)
+    (uninferredSentence (isa ?course NUBasicCSClass))) ;; Skip if it is a basic course
