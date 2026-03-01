@@ -1,9 +1,9 @@
 ;;; we know that it is in the harry potter universe
 (in CureBoilPotionMt)
 
-;;; we know that this potion is considered a mixture
-(Potion Cure_Boils_Potion)
-(PotionRecipees Cure_Boils_Recipe)
+;;; we know that cure boils is a potion and a recipee connected by potionHasRecipee
+(isa Cure_Boils_Potion Potion)
+(isa Cure_Boils_Recipe PotionRecipees)
 (potionHasRecipee Cure_Boils_Potion Cure_Boils_Recipe)
 
 ;;; each potionHasRecipee has multiple steps we call potion step
@@ -19,47 +19,40 @@
 (arg1Isa precedesStep potionStep)
 (arg2Isa precedesStep potionStep)
 
-
-
 ;;; create all of the steps to make the potion
-(potionStep CB_Step1)
-(potionStep CB_Step2)
-(potionStep CB_Step3)
-(potionStep CB_Step4)
-(potionStep CB_Step5)
-(potionStep CB_Step6)
-(potionStep CB_Step7)
-(potionStep CB_Step8)
-(potionStep CB_Step9)
-(potionStep CB_Step10)
+(isa CB_Step1 potionStep)
+(isa CB_Step2 potionStep)
+(isa CB_Step3 potionStep)
+(isa CB_Step4 potionStep)
+(isa CB_Step5 potionStep)
+(isa CB_Step6 potionStep)
+(isa CB_Step7 potionStep)
+(isa CB_Step8 potionStep)
+(isa CB_Step9 potionStep)
+(isa CB_Step10 potionStep)
 
-
+;;; Put steps into the recipe
 (hasSteps Cure_Boils_Recipe CB_Step1)
-Potion Cure
-
-
-;;; Put steps into the plan
-(stepsInPlan Cure_Boils_Recipe CB_Step1)
-(stepsInPlan Cure_Boils_Recipe CB_Step2)
-(stepsInPlan Cure_Boils_Recipe CB_Step3)
-(stepsInPlan Cure_Boils_Recipe CB_Step4)
-(stepsInPlan Cure_Boils_Recipe CB_Step5)
-(stepsInPlan Cure_Boils_Recipe CB_Step6)
-(stepsInPlan Cure_Boils_Recipe CB_Step7)
-(stepsInPlan Cure_Boils_Recipe CB_Step8)
-(stepsInPlan Cure_Boils_Recipe CB_Step9)
-(stepsInPlan Cure_Boils_Recipe CB_Step10)
+(hasSteps Cure_Boils_Recipe CB_Step2)
+(hasSteps Cure_Boils_Recipe CB_Step3)
+(hasSteps Cure_Boils_Recipe CB_Step4)
+(hasSteps Cure_Boils_Recipe CB_Step5)
+(hasSteps Cure_Boils_Recipe CB_Step6)
+(hasSteps Cure_Boils_Recipe CB_Step7)
+(hasSteps Cure_Boils_Recipe CB_Step8)
+(hasSteps Cure_Boils_Recipe CB_Step9)
+(hasSteps Cure_Boils_Recipe CB_Step10)
 
 ;;; Ordering (precedes constraints)
-(precedesInSeries CB_Step1 CB_Step2)
-(precedesInSeries CB_Step2 CB_Step3)
-(precedesInSeries CB_Step3 CB_Step4)
-(precedesInSeries CB_Step4 CB_Step5)
-(precedesInSeries CB_Step5 CB_Step6)
-(precedesInSeries CB_Step6 CB_Step7)
-(precedesInSeries CB_Step7 CB_Step8)
-(precedesInSeries CB_Step8 CB_Step9)
-(precedesInSeries CB_Step9 CB_Step10)
+(precedesStep CB_Step1 CB_Step2)
+(precedesStep CB_Step2 CB_Step3)
+(precedesStep CB_Step3 CB_Step4)
+(precedesStep CB_Step4 CB_Step5)
+(precedesStep CB_Step5 CB_Step6)
+(precedesStep CB_Step6 CB_Step7)
+(precedesStep CB_Step7 CB_Step8)
+(precedesStep CB_Step8 CB_Step9)
+(precedesStep CB_Step9 CB_Step10)
 
 
 Cure_Boils
