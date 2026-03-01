@@ -9,42 +9,58 @@
 ;;;;  modified: Friday, Feb 20th 
 ;;;; ---------------------------------------------------------------------------
 
+;; (in-microtheory HarryPotterIngredientsMt)
+;; (isa HarryPotterIngredientsMt Microtheory)
+;; (comment HarryPotterIngredientsMt
+;;   "Microtheory that has the ontology/facts about ingredients")
+
+;; ;;; define our new predicates 
+;; (isa haveIngredient UnaryPredicate)
+;; (comment haveIngredient
+;;   "Do we have all the ingredients for a potion.")
+;; (arg1Isa haveIngredient PartiallyTangible)
+
+;; (isa canMake UnaryPredicate)
+;; (comment haveIngredient
+;;   "Can we make this potion given a list of ingredients.")
+;; (arg1Isa canMake Potion)
+
+;; ;;;
+;; ;;;
+;; ;;; CURE BOILS 
+;; ;;;
+;; ;;; Do we have all the ingredients for Cure_Boils 
+
+;; (<== (haveIngredient Cure_Boils) 
+;; (ingredients Cure_Boils SnakeFangs)
+;; (ingredients Cure_Boils HornedSlugs) 
+;; (ingredients Cure_Boils PorcupineQuills))
+
+;; ;;; Can we make Cure_Boils potion right now ?
+
+;; (<== (canMake Cure_Boils)
+;;     (haveIngredient SnakeFangs)
+;;     (haveIngredient HornedSlugs)
+    ;; (haveIngredient PorcupineQuills))
+
+;;;
+;;;
+;;;
+;;;
+;;;
+
+
+;;; Claire's attempt
 (in-microtheory HarryPotterIngredientsMt)
 (isa HarryPotterIngredientsMt Microtheory)
 (comment HarryPotterIngredientsMt
   "Microtheory that has the ontology/facts about ingredients")
 
-;;; define our new predicates 
-(isa haveIngredient UnaryPredicate)
-(comment haveIngredient
-  "Do we have all the ingredients for a potion.")
-(arg1Isa haveIngredient PartiallyTangible)
+;; make a new collection of all ingredients in HP world
+(isa PotionIngredients Collection)
+(genls PotionIngredients FoodOrDrinkOrIngredient) ;; existing collection found in KB
 
-(isa canMake UnaryPredicate)
-(comment haveIngredient
-  "Can we make this potion given a list of ingredients.")
-(arg1Isa canMake Potion)
-
-;;;
-;;;
-;;; CURE BOILS 
-;;;
-;;; Do we have all the ingredients for Cure_Boils 
-
-(<== (haveIngredient Cure_Boils) 
-(ingredients Cure_Boils SnakeFangs)
-(ingredients Cure_Boils HornedSlugs) 
-(ingredients Cure_Boils PorcupineQuills))
-
-;;; Can we make Cure_Boils potion right now ?
-
-(<== (canMake Cure_Boils)
-    (haveIngredient SnakeFangs)
-    (haveIngredient HornedSlugs)
-    (haveIngredient PorcupineQuills))
-
-;;;
-;;;
-;;;
-;;;
-;;;
+;; adding CureBoils potion ingredients
+(isa SnakeFangs PotionIngredients)
+(isa HornedSlugs PotionIngredients)
+(isa PorcupineQuills PotionIngredients)

@@ -1,3 +1,14 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: cureboilPotionrules.krf 
+;;;;    System: FIRE
+;;;;    Author: Claire Metcalf
+;;;;   Created: Feb 20 
+;;;;   Purpose: 371 Final Assignment, Potion steps for Cure Boils 
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Saturday, Feb 28th
+;;;; ---------------------------------------------------------------------------
+
 ;;; we know that it is in the harry potter universe
 (in CureBoilPotionMt)
 
@@ -30,6 +41,7 @@
 (isa CB_Step8 potionStep)
 (isa CB_Step9 potionStep)
 (isa CB_Step10 potionStep)
+(isa CB_Step11 potionStep)
 
 ;;; Put steps into the recipe
 (hasSteps Cure_Boils_Recipe CB_Step1)
@@ -42,6 +54,7 @@
 (hasSteps Cure_Boils_Recipe CB_Step8)
 (hasSteps Cure_Boils_Recipe CB_Step9)
 (hasSteps Cure_Boils_Recipe CB_Step10)
+(hasSteps Cure_Boils_Recipe CB_Step11)
 
 ;;; Ordering (precedes constraints)
 (precedesStep CB_Step1 CB_Step2)
@@ -53,25 +66,71 @@
 (precedesStep CB_Step7 CB_Step8)
 (precedesStep CB_Step8 CB_Step9)
 (precedesStep CB_Step9 CB_Step10)
+(precedesStep CB_Step10 CB_Step11)
 
+;;; a step has an action
+(isa stepAction BinaryPredicate)
+(arg1Isa stepAction potionStep)
+(arg2Isa stepAction Collection)
 
-Cure_Boils
-Ingredients:
-Snake fangs
-Horned slugs
-Porcupine quills
-Instructions:
-Part 1
-Add 6 snake fangs to the mortar.
-Crush into a fine powder using the pestle.
-Add 4 measures of the crushed fangs to your cauldron.
-Heat the mixture to 250 for 10 seconds.
-Wave your wand.
-Leave to brew and return in 33-45 minutes.[1]
-Part 2
-Add 4 horned slugs to your cauldron.
-Take the cauldron off the fire before adding the next ingredient.[2]
-Add 2 porcupine quills to your cauldron.
-Stir 5 times, clockwise.
-Wave your wand to complete the potion.[1]
+;;; a step uses a tool/container
+(isa stepTool BinaryPredicate)
+(arg1Isa stepTool potionStep)
+(arg2Isa stepTool Collection)
+
+;;; Quantity for an ingredient in a step
+(isa stepIngredient TernaryPredicate)
+(arg1Isa stepIngredient potionStep)
+(arg2Isa stepIngredient PotionIngredients)  ; ingredient
+(arg3Isa stepIngredient Integer) ; count of ingredient subject to change
+
+;;; see drawing to see how above works
+
+;;; add 6 snake fangs to the mortar.
+(stepAction CB_Step1 Incorporation-Physical) 
+(stepTool CB_Step1 MortarAndPestle)
+(stepIngredient CB_Step1 SnakeFangs 6)
+
+;;; Crush into a fine powder using the pestle.
+(stepAction CB_Step2 Crushing)
+(stepTool CB_Step2 MortarAndPestle)
+
+;;; Add 4 measures of the crushed fangs to your cauldron.
+(stepAction Incorporation-Physical)
+(stepTool CB_Step3 Cauldron)
+(stepIngredient CB_Step3 SnakeFangs 4)
+
+;;; Heat the mixture to 250 for 10 seconds.
+(stepAction CB_Step4 Heat)
+(stepTool CB_Step4 Cauldron)
+;; FIX LATER add time
+
+;;; Wave your wand.
+(stepAction CB_Step5 Gesture) 
+(stepTool CB_Step5 MagicWand)
+
+;;; Leave to brew and return in 33-45 minutes.[1]
+;; FIX LATER add time
+
+;; Add 4 horned slugs to your cauldron.
+(stepAction CB_Step7 Incorporation-Physical) 
+(stepTool CB_Step7 Cauldron)
+(stepIngredient CB_Step7 HornedSlugs)
+
+;; Take the cauldron off the fire before adding the next ingredient
+(stepAction CB_Step8 CoolingProcess)
+(stepTool CB_Step8 Cauldron)
+
+;; Add 2 porcupine quills to your cauldron.
+(stepAction CB_Step9 Incorporation-Physical)
+(stepTool CB_Step9 Cauldron)
+(stepIngredient CB_Step9 PorcupineQuills 2)
+
+;; Stir 5 times, clockwise.
+(stepAction CB_Step10 Stir)
+(stepTool CB_Step10 Cauldron)
+
+;; Wave your wand to complete the potion.[1]
+(stepAction CB_Step11 Gesture)
+(stepTool CB_Step11 MagicWand)
 
