@@ -27,24 +27,15 @@
 (arg2Isa hasIngredient PotionIngredients)
 
 ;; adding CureBoils potion ingredients
-;; (isa SnakeFangs PotionIngredients)
-;; (isa HornedSlugs PotionIngredients)
-;; (isa PorcupineQuills PotionIngredients)
 
-(<== (hasCorrectIngredients CureBoils ?attempt)
+(<== (hasCorrectIngredients Cure_Boils_Recipe ?attempt)
     (hasIngredient ?attempt SnakeFangs)
     (hasIngredient ?attempt HornedSlugs)
     (hasIngredient ?attempt PorcupineQuills))
 
 ;; adding polyjuice potion ingredients 
-;; (isa LacewingFly PotionIngredients)
-;; (isa Leeche PotionIngredients)
-;; (isa BicornHorn PotionIngredients)
-;; (isa Knotgrass PotionIngredients)
-;; (isa Fluxweed PotionIngredients)
-;; (isa BoomslangSkin PotionIngredients)
 
-(<== (hasCorrectIngredients Polyjuice_Recipe)
+(<== (hasCorrectIngredients Polyjuice_Recipe ?attempt)
     (isa LacewingFly PotionIngredients)
     (isa Leeche PotionIngredients)
     (isa BicornHorn PotionIngredients)
