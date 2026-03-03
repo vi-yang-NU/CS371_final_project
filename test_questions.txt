@@ -1,0 +1,35 @@
+Here are the list of questions we have and will test on: 
+
+
+// only cure boils is implemented: 
+// we fed in the reasoner potion_rules, ingredients_rules, and cureboipotionrules 
+1. List all recipees and steps (hasSteps ?recipe ?step)
+    -> returns true for all steps in cure boils 
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step1))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step10))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step11))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step2))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step3))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step4))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step5))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step6))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step7))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step8))	[true]
+        justifications assumptions	(ist-Information EverythingPSC
+        (hasSteps Cure_Boils_Recipe CB_Step9))	[true]
+
+2. List all recipees 
+    -> 	(ist-Information EverythingPSC
+        (isa Cure_Boils_Recipe PotionRecipees)) [true]
+
+3. List all ingredients of a recipee 

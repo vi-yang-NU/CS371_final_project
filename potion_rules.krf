@@ -17,6 +17,10 @@
 ;;; we want the potions to be able to see the ingredients 
 (genlMt HarryPotterPotionsMt HarryPotterIngredientsMt)
 
+
+;; define collection for attempts 
+(isa PotionAttempt Collection)
+
 ;; define a collection for potion 
 (isa Potion Collection)
 (genls Potion Artifact)

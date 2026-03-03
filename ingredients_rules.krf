@@ -9,48 +9,6 @@
 ;;;;  modified: Friday, Feb 20th 
 ;;;; ---------------------------------------------------------------------------
 
-;; (in-microtheory HarryPotterIngredientsMt)
-;; (isa HarryPotterIngredientsMt Microtheory)
-;; (comment HarryPotterIngredientsMt
-;;   "Microtheory that has the ontology/facts about ingredients")
-
-;; ;;; define our new predicates 
-;; (isa haveIngredient UnaryPredicate)
-;; (comment haveIngredient
-;;   "Do we have all the ingredients for a potion.")
-;; (arg1Isa haveIngredient PartiallyTangible)
-
-;; (isa canMake UnaryPredicate)
-;; (comment haveIngredient
-;;   "Can we make this potion given a list of ingredients.")
-;; (arg1Isa canMake Potion)
-
-;; ;;;
-;; ;;;
-;; ;;; CURE BOILS 
-;; ;;;
-;; ;;; Do we have all the ingredients for Cure_Boils 
-
-;; (<== (haveIngredient Cure_Boils) 
-;; (ingredients Cure_Boils SnakeFangs)
-;; (ingredients Cure_Boils HornedSlugs) 
-;; (ingredients Cure_Boils PorcupineQuills))
-
-;; ;;; Can we make Cure_Boils potion right now ?
-
-;; (<== (canMake Cure_Boils)
-;;     (haveIngredient SnakeFangs)
-;;     (haveIngredient HornedSlugs)
-    ;; (haveIngredient PorcupineQuills))
-
-;;;
-;;;
-;;;
-;;;
-;;;
-
-
-;;; Claire's attempt
 (in-microtheory HarryPotterIngredientsMt)
 (isa HarryPotterIngredientsMt Microtheory)
 (comment HarryPotterIngredientsMt
@@ -60,7 +18,36 @@
 (isa PotionIngredients Collection)
 (genls PotionIngredients FoodOrDrinkOrIngredient) ;; existing collection found in KB
 
+
+(isa PotionAttempt Collection)
+;; define hasIngredient predicate
+
+(isa hasIngredient BinaryPredicate)
+(arg1Isa hasIngredient PotionAttempt) 
+(arg2Isa hasIngredient PotionIngredients)
+
 ;; adding CureBoils potion ingredients
-(isa SnakeFangs PotionIngredients)
-(isa HornedSlugs PotionIngredients)
-(isa PorcupineQuills PotionIngredients)
+;; (isa SnakeFangs PotionIngredients)
+;; (isa HornedSlugs PotionIngredients)
+;; (isa PorcupineQuills PotionIngredients)
+
+(<== (hasCorrectIngredients CureBoils ?attempt)
+    (hasIngredient ?attempt SnakeFangs)
+    (hasIngredient ?attempt HornedSlugs)
+    (hasIngredient ?attempt PorcupineQuills))
+
+;; adding polyjuice potion ingredients 
+;; (isa LacewingFly PotionIngredients)
+;; (isa Leeche PotionIngredients)
+;; (isa BicornHorn PotionIngredients)
+;; (isa Knotgrass PotionIngredients)
+;; (isa Fluxweed PotionIngredients)
+;; (isa BoomslangSkin PotionIngredients)
+
+(<== (hasCorrectIngredients Polyjuice_Recipe)
+    (isa LacewingFly PotionIngredients)
+    (isa Leeche PotionIngredients)
+    (isa BicornHorn PotionIngredients)
+    (isa Knotgrass PotionIngredients)
+    (isa Fluxweed PotionIngredients)
+    (isa BoomslangSkin PotionIngredients))

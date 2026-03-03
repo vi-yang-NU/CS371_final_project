@@ -10,7 +10,8 @@
 ;;;; ---------------------------------------------------------------------------
 
 ;;; we know that it is in the harry potter universe
-(in CureBoilPotionMt)
+(in-microtheory CureBoilPotionMt)
+(isa CureBoilPotionMt Microtheory)
 
 ;;; we know that cure boils is a potion and a recipee connected by potionHasRecipee
 (isa Cure_Boils_Potion Potion)
@@ -96,7 +97,7 @@
 (stepTool CB_Step2 MortarAndPestle)
 
 ;;; Add 4 measures of the crushed fangs to your cauldron.
-(stepAction Incorporation-Physical)
+(stepAction CB_Step3 Incorporation-Physical)
 (stepTool CB_Step3 Cauldron)
 (stepIngredient CB_Step3 SnakeFangs 4)
 
@@ -115,7 +116,7 @@
 ;; Add 4 horned slugs to your cauldron.
 (stepAction CB_Step7 Incorporation-Physical) 
 (stepTool CB_Step7 Cauldron)
-(stepIngredient CB_Step7 HornedSlugs)
+(stepIngredient CB_Step7 HornedSlugs 4)
 
 ;; Take the cauldron off the fire before adding the next ingredient
 (stepAction CB_Step8 CoolingProcess)

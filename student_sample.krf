@@ -1,0 +1,37 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: potion_rules.krf 
+;;;;    System: FIRE
+;;;;    Author: Vi yang 
+;;;;   Created: March 2nd 
+;;;;   Purpose: 371 Final Assignment, tests for making potions 
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Monday, March 2nd 
+;;;; ---------------------------------------------------------------------------
+
+
+;;; This file will encode different students trying out different attempts to make potions 
+;;; some may fail some may sucueed 
+;;; attempt 1: making cure boils but forgetting ingredient 
+
+(in-microtheory CureBoilsAttempt1Mt)
+(isa CureBoilsAttempt1Mt Microtheory)
+(genlMt CureBoilsAttempt1Mt HarryPotterPotionsMt)
+
+
+
+(isa CureBoilsAttempt1 PotionAttempt)
+
+(hasIngredient CureBoilsAttempt1 SnakeFangs)
+(hasIngredient CureBoilsAttempt1 HornedSlugs)
+;;; missing porcupine quills! 
+
+
+
+(isa CureBoilsAttempt2 PotionAttempt)
+
+;;; second attempt with all ingredients! 
+
+(hasIngredient CureBoilsAttempt2 SnakeFangs)
+(hasIngredient CureBoilsAttempt2 HornedSlugs)
+(hasIngredient CureBoilsAttempt2 PorcupineQuills)
