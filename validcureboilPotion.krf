@@ -1,0 +1,40 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: ingredient-rules.krf 
+;;;;    System: FIRE
+;;;;    Author: Faith Do, Tori Ng
+;;;;   Created: Feb 20 
+;;;;   Purpose: 371 Final Assignment 
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Wed, Mar 3
+;;;; ---------------------------------------------------------------------------
+
+;;; Check if potion is missing ingredients (as a step in checking if the potion is valid)
+
+(isa CureBoilsPotion PotionAttempt)
+
+(hasIngredient CureBoilsPotion SnakeFangs)
+(hasIngredient CureBoilsPotion HornedSlugs)
+(hasIngredient CureBoilsPotion PorcupineQuills)
+
+;;; Any missing ingredient means the attempt is not valid.
+
+(=> (potionAttemptMissingIngredient ?attempt ?ing)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; Any improper step means the attempt is not valid.
+
+;;; Assume that the potion is valid
+;;; Check the state of the person / thing drinking cure boils
+;;; Person does not have boils --drinks--> No effect / No state change
+
+(=> (and (drinks ?person CureBoilsPotion)
+         (not (hasBoils ?person)))
+    (noEffectFromPotion ?person CureBoilsPotion))
+
+;;; Person does have boils --drinks--> Person is cured of boils / State is changed
+
+(=> (and (drinks ?person CureBoilsPotion)
+         (hasBoils ?person))
+    (and (curedOfBoils ?person)
+         (not (hasBoils ?person))))
