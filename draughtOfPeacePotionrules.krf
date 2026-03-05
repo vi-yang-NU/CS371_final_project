@@ -101,3 +101,76 @@
 ;; Allow to simmer until the potion turns pink.
 (stepAction DP_Step4 Heat)
 (stepTool DP_Step4 Cauldron)
+
+;; Add syrup of hellebore until the potion turns turquoise.
+(stepAction DP_Step5 Incorporation-Physical)
+(stepTool DP_Step5 cauldron)
+(stepIngredient DP_Step5 helleboreSyrup)
+
+;; Allow to simmer until the potion turns purple.
+(stepAction DP_Step4 Heat)
+(stepTool DP_Step4 Cauldron)
+
+;; Shake stewed mandrake vigorously until they are ready and 
+(stepAction DP_Step5 Churning)
+(stepTool DP_Step5 FoodBlender)
+(stepIngredient DP_Step5 stewedMandrake)
+
+;; then add until the potion turns red.
+(stepAction DP_Step6 Incorporation-Physical)
+(stepTool DP_Step6 cauldron)
+(stepIngredient DP_Step6 stewedMandrake)
+
+;; Stir until the potion turns orange.
+(stepAction DP_Step7 Stir)
+(stepTool DP_Step7 cauldron)
+
+;; Add more stewed mandrake until the potion turns yellow.
+(stepAction DP_Step8 Incorporation-Physical)
+(stepTool DP_Step8 cauldron)
+(stepIngredient DP_Step8 stewedMandrake)
+
+;; Stir until the potion turns green.
+(stepAction DP_Step9 Stir)
+(stepTool DP_Step9 cauldron)
+
+;; Add more stewed mandrake until the potion turns turquoise.
+(stepAction DP_Step10 Incorporation-Physical)
+(stepTool DP_Step10 cauldron)
+(stepIngredient DP_Step10 stewedMandrake)
+
+;; Allow to simmer till the potion turns purple.
+(stepAction DP_Step11 Stir)
+(stepTool DP_Step11 cauldron)
+
+;; Add powdered unicorn horn until the potion turns pink.
+(stepAction DP_Step12 Incorporation-Physical)
+(stepTool DP_Step12 cauldron)
+(stepIngredient DP_Step12 powderedUnicornHorn)
+
+;; Stir until the potion turns red.
+(stepAction DP_Step13 Stir)
+(stepTool DP_Step13 cauldron)
+
+;; Allow to simmer until the potion turns purple.
+(stepAction DP_Step14 Stir)
+(stepTool DP_Step14 cauldron)
+
+;; Add more powdered moonstone until the potion turns pink.
+(stepAction DP_Step15 Incorporation-Physical)
+(stepTool DP_Step15 cauldron)
+(stepIngredient DP_Step15 powderedMoonstone)
+
+;; Allow the potion to simmer until it turns orange. 
+(stepAction DP_Step14 Stir)
+(stepTool DP_Step14 cauldron)
+
+;; Remove from heat.
+(stepAction DP_Step15 Remove)
+(stepTool DP_Step15 cauldron)
+
+;; Add powdered porcupine quills until the potion turns white. (Add exactly 7 drops)[6]
+(stepAction DP_Step16 Incorporation-Physical)
+(stepTool DP_Step16 cauldron)
+(stepIngredient DP_Step16 PorcupineQuills 7)
+
