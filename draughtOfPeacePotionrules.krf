@@ -1,0 +1,103 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: cureboilPotionrules.krf 
+;;;;    System: FIRE
+;;;;    Author: Claire Metcalf
+;;;;   Created: Feb 20 
+;;;;   Purpose: 371 Final Assignment, Potion steps for Cure Boils 
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Saturday, Feb 28th
+;;;; ---------------------------------------------------------------------------
+
+(in DraughtOfPeacePotionMt)
+
+;;; we know that draught of peace is a potion and a recipee connected by potionHasRecipee
+(isa Draught_Of_Peace_Potion Potion)
+(isa Draught_Of_Peace_Recipee PotionRecipees)
+(potionHasRecipee Draught_Of_Peace_Potion Draught_Of_Peace_Recipee)
+
+;;; each potionHasRecipee has multiple steps we call potion step
+(isa potionStep Collection)
+
+;;; hassteps is predicate between potion steps and the recipee 
+(isa hasSteps BinaryPredicate)
+(arg1Isa hasSteps PotionRecipees)
+(arg2Isa hasSteps potionStep)
+
+;;; we define the relationships between the steps using precedes steps 
+(isa precedesStep BinaryPredicate) ;;; K1 precedes K2 
+(arg1Isa precedesStep potionStep)
+(arg2Isa precedesStep potionStep)
+
+;;; create all of the steps to make the potion
+(isa DP_Step1 potionStep)
+(isa DP_Step2 potionStep)
+(isa DP_Step3 potionStep)
+(isa DP_Step4 potionStep)
+(isa DP_Step5 potionStep)
+(isa DP_Step6 potionStep)
+(isa DP_Step7 potionStep)
+(isa DP_Step8 potionStep)
+(isa DP_Step9 potionStep)
+(isa DP_Step10 potionStep)
+(isa DP_Step11 potionStep)
+
+;;; Put steps into the recipe
+(hasSteps Draught_of_Peace_Recipe DP_Step1)
+(hasSteps Draught_of_Peace_Recipe DP_Step2)
+(hasSteps Draught_of_Peace_Recipe DP_Step3)
+(hasSteps Draught_of_Peace_Recipe DP_Step4)
+(hasSteps Draught_of_Peace_Recipe DP_Step5)
+(hasSteps Draught_of_Peace_Recipe DP_Step6)
+(hasSteps Draught_of_Peace_Recipe DP_Step7)
+(hasSteps Draught_of_Peace_Recipe DP_Step8)
+(hasSteps Draught_of_Peace_Recipe DP_Step9)
+(hasSteps Draught_of_Peace_Recipe DP_Step10)
+(hasSteps Draught_of_Peace_Recipe DP_Step11)
+
+;;; Ordering (precedes constraints)
+(precedesStep DP_Step1 DP_Step2)
+(precedesStep DP_Step2 DP_Step3)
+(precedesStep DP_Step3 DP_Step4)
+(precedesStep DP_Step4 DP_Step5)
+(precedesStep DP_Step5 DP_Step6)
+(precedesStep DP_Step6 DP_Step7)
+(precedesStep DP_Step7 DP_Step8)
+(precedesStep DP_Step8 DP_Step9)
+(precedesStep DP_Step9 DP_Step10)
+(precedesStep DP_Step10 DP_Step11)
+
+
+;;; a step has an action
+(isa stepAction BinaryPredicate)
+(arg1Isa stepAction potionStep)
+(arg2Isa stepAction Collection)
+
+;;; a step uses a tool/container
+(isa stepTool BinaryPredicate)
+(arg1Isa stepTool potionStep)
+(arg2Isa stepTool Collection)
+
+;;; Quantity for an ingredient in a step
+(isa stepIngredient TernaryPredicate)
+(arg1Isa stepIngredient potionStep)
+(arg2Isa stepIngredient PotionIngredients)  ; ingredient
+(arg3Isa stepIngredient Integer) ; count of ingredient subject to change
+
+;; Add powdered moonstone until the potion turns green.
+(stepAction DP_Step1 Incorporation-Physical)
+(stepTool DP_Step1 cauldron)
+(stepIngredient DP_Step1 powderedMoonstone)
+
+;; Stir until the potion turns blue.
+(stepAction DP_Step2 Stir)
+(stepTool DP_Step2 cauldron)
+
+;; Add powdered moonstone until the potion turns purple.
+(stepAction DP_Step3 Incorporation-Physical)
+(stepTool DP_Step3 cauldron)
+(stepIngredient DP_Step3 powderedMoonstone)
+
+;; Allow to simmer until the potion turns pink.
+(stepAction DP_Step4 Heat)
+(stepTool DP_Step4 Cauldron)

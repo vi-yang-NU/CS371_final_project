@@ -1,0 +1,164 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: cureboilPotionrules.krf 
+;;;;    System: FIRE
+;;;;    Author: Claire Metcalf
+;;;;   Created: Mar 4 
+;;;;   Purpose: 371 Final Assignment, Potion steps for Shrinking Potion
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Wednesday, March 4th
+;;;; ---------------------------------------------------------------------------
+
+;;; we know that it is in the harry potter universe
+(in CureBoilPotionMt)
+
+;;; we know that cure boils is a potion and a recipee connected by potionHasRecipee
+(isa Shrinking_Potion Potion)
+(isa Shrinking_Potion_Recipee PotionRecipees)
+(potionHasRecipee Shrinking_Potion Shrinking_Potion_Recipee)
+
+;;; each potionHasRecipee has multiple steps we call potion step
+(isa potionStep Collection)
+
+;;; hassteps is predicate between potion steps and the recipee 
+(isa hasSteps BinaryPredicate)
+(arg1Isa hasSteps PotionRecipees)
+(arg2Isa hasSteps potionStep)
+
+;;; we define the relationships between the steps using precedes steps 
+(isa precedesStep BinaryPredicate) ;;; K1 precedes K2 
+(arg1Isa precedesStep potionStep)
+(arg2Isa precedesStep potionStep)
+
+;;; create all of the steps to make the potion
+(isa SP_Step1 potionStep)
+(isa SP_Step2 potionStep)
+(isa SP_Step3 potionStep)
+(isa SP_Step4 potionStep)
+(isa SP_Step5 potionStep)
+(isa SP_Step6 potionStep)
+(isa SP_Step7 potionStep)
+(isa SP_Step8 potionStep)
+(isa SP_Step9 potionStep)
+(isa SP_Step10 potionStep)
+(isa SP_Step11 potionStep)
+(isa SP_Step12 potionStep)
+(isa SP_Step13 potionStep)
+
+;;; Put steps into the recipe
+(hasSteps Shrinking_Potion_Recipee SP_Step1)
+(hasSteps Shrinking_Potion_Recipee SP_Step2)
+(hasSteps Shrinking_Potion_Recipee SP_Step3)
+(hasSteps Shrinking_Potion_Recipee SP_Step4)
+(hasSteps Shrinking_Potion_Recipee SP_Step5)
+(hasSteps Shrinking_Potion_Recipee SP_Step6)
+(hasSteps Shrinking_Potion_Recipee SP_Step7)
+(hasSteps Shrinking_Potion_Recipee SP_Step8)
+(hasSteps Shrinking_Potion_Recipee SP_Step9)
+(hasSteps Shrinking_Potion_Recipee SP_Step10)
+(hasSteps Shrinking_Potion_Recipee SP_Step11)
+(hasSteps Shrinking_Potion_Recipee SP_Step12)
+(hasSteps Shrinking_Potion_Recipee SP_Step13)
+
+;;; Ordering (precedes constraints)
+(precedesStep SP_Step1 SP_Step2)
+(precedesStep SP_Step2 SP_Step3)
+(precedesStep SP_Step3 SP_Step4)
+(precedesStep SP_Step4 SP_Step5)
+(precedesStep SP_Step5 SP_Step6)
+(precedesStep SP_Step6 SP_Step7)
+(precedesStep SP_Step7 SP_Step8)
+(precedesStep SP_Step8 SP_Step9)
+(precedesStep SP_Step9 SP_Step10)
+(precedesStep SP_Step10 SP_Step11)
+(precedesStep SP_Step11 SP_Step12)
+(precedesStep SP_Step12 SP_Step13)
+
+;;; a step has an action
+(isa stepAction BinaryPredicate)
+(arg1Isa stepAction potionStep)
+(arg2Isa stepAction Collection)
+
+;;; a step uses a tool/container
+(isa stepTool BinaryPredicate)
+(arg1Isa stepTool potionStep)
+(arg2Isa stepTool Collection)
+
+;;; Quantity for an ingredient in a step
+(isa stepIngredient TernaryPredicate)
+(arg1Isa stepIngredient potionStep)
+(arg2Isa stepIngredient PotionIngredients)  ; ingredient
+(arg3Isa stepIngredient Integer) ; count of ingredient subject to change
+
+;; Add five sliced caterpillars.
+(stepAction SP_Step1 Incorporation-Physical)
+(stepTool SP_Step1 Cauldron)
+(stepIngredient SP_Step1 caterpillars 5)
+
+;; Heat till the potion turns red.
+(stepAction SP_Step2 Heat)
+(stepTool SP_Step1 Cauldron)
+
+;; peel Shrivelfig
+(stepAction SP_Step3 RemovingSomething)
+(stepTool SP_Step3 Peeler-Device)
+(stepIngredient SP_Step3 Shrivelfig)
+
+;; Shake the peeled Shrivelfig until it is ready 
+(stepAction SP_Step4 Churning)
+(stepTool SP_Step4 FoodBlender)
+(stepIngredient SP_Step4 Shrivelfig)
+
+;; Add peeled Shrivelfig until the potion turns yellow.
+(stepAction SP_Step5 Incorporation-Physical)
+(stepTool SP_Step5 cauldron)
+(stepIngredient SP_Step5 Shrivelfig)
+
+;; Heat potion until it turns turquoise.
+(stepAction SP_Step6 Heat)
+(stepTool SP_Step6 cauldron)
+
+;; Heat potion until it turns purple.
+(stepAction SP_Step6 Heat)
+(stepTool SP_Step6 cauldron)
+
+;; Add four rat spleens to the cauldron.
+(stepAction SP_Step7 Incorporation-Physical)
+(stepTool SP_Step7 cauldron)
+(stepIngredient SP_Step7 ratSpleens)
+
+;; mice daisy root 
+(stepAction SP_Step8 CuttingInPieces)
+(stepTool SP_Step8 Knife)
+(stepIngredient SP_Step8 daisyRoots)
+
+;; Add minced daisy roots till it turns green.
+(stepAction SP_Step9 Incorporation-Physical)
+(stepTool SP_Step9 cauldron)
+(stepIngredient SP_Step9 daisyRoots)
+
+;; add five drops of leech juice.
+(stepAction SP_Step10 Incorporation-Physical)
+(stepTool SP_Step10 cauldron)
+(stepIngredient SP_Step10 leechJuice 5)
+
+;; Add more of the Shrivelfig, this time till it turns pink.
+(stepAction SP_Step11 Incorporation-Physical)
+(stepTool SP_Step11 cauldron)
+(stepIngredient SP_Step11 Shrivelfig)
+
+;; Add one sliced caterpillar.
+(stepAction SP_Step12 Incorporation-Physical)
+(stepTool SP_Step12 cauldron)
+(stepIngredient SP_Step12 caterpillars 1)
+
+;; Heat mixture until it turns green.[8]
+(stepAction SP_Step13 Heat)
+(stepTool SP_Step13 cauldron)
+
+
+
+;; (isa caterpillars PotionIngredients)
+;; (isa Shrivelfig PotionIngredients)
+;; (isa ratSpleens PotionIngredients)
+;; (isa leechJuice PotionIngredients)
