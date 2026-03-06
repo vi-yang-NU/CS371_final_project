@@ -8,3 +8,147 @@
 ;;;; ---------------------------------------------------------------------------
 ;;;;  modified: Mon, March 2nd 
 ;;;; ---------------------------------------------------------------------------
+
+(in PolyjuicePotionMt)
+
+;;; we know that draught of peace is a potion and a recipee connected by potionHasRecipee
+(isa PolyjuicePotion Potion)
+(isa Polyjuice_Recipe PotionRecipees)
+(potionHasRecipee PolyjuicePotion Polyjuice_Recipe)
+
+;;; each potionHasRecipee has multiple steps we call potion step
+(isa potionStep Collection)
+
+;;; hassteps is predicate between potion steps and the recipee 
+(isa hasSteps BinaryPredicate)
+(arg1Isa hasSteps PotionRecipees)
+(arg2Isa hasSteps potionStep)
+
+;;; we define the relationships between the steps using precedes steps 
+(isa precedesStep BinaryPredicate) ;;; K1 precedes K2 
+(arg1Isa precedesStep potionStep)
+(arg2Isa precedesStep potionStep)
+
+;;; create all of the steps to make the potion
+(isa PP_Step1 potionStep)
+(isa PP_Step2 potionStep)
+(isa PP_Step3 potionStep)
+(isa PP_Step4 potionStep)
+(isa PP_Step5 potionStep)
+(isa PP_Step6 potionStep)
+(isa PP_Step7 potionStep)
+(isa PP_Step8 potionStep)
+(isa PP_Step9 potionStep)
+(isa PP_Step10 potionStep)
+(isa PP_Step11 potionStep)
+(isa PP_Step12 potionStep)
+(isa PP_Step13 potionStep)
+(isa PP_Step14 potionStep)
+(isa PP_Step15 potionStep)
+
+
+;;; Put steps into the recipe
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step1)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step2)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step3)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step4)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step5)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step6)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step7)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step8)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step9)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step10)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step11)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step12)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step13)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step14)
+(hasSteps Draught_Of_Living_Death_Recipee PP_Step15)
+
+
+;;; Ordering (precedes constraints)
+(precedesStep PP_Step1 PP_Step2)
+(precedesStep PP_Step2 PP_Step3)
+(precedesStep PP_Step3 PP_Step4)
+(precedesStep PP_Step4 PP_Step5)
+(precedesStep PP_Step5 PP_Step6)
+(precedesStep PP_Step6 PP_Step7)
+(precedesStep PP_Step7 PP_Step8)
+(precedesStep PP_Step8 PP_Step9)
+(precedesStep PP_Step9 PP_Step10)
+(precedesStep PP_Step10 PP_Step11)
+(precedesStep PP_Step11 PP_Step12)
+(precedesStep PP_Step12 PP_Step13)
+(precedesStep PP_Step13 PP_Step14)
+(precedesStep PP_Step14 PP_Step15)
+
+;; Step 1: Add 3 measures of fluxweed to the cauldron (must have been picked on a full moon).
+(stepAction PP_Step1 Incorporation-Physical)
+(stepTool PP_Step1 cauldron)
+(stepIngredient PP_Step1 fluxWeed 3)
+
+;; Step 2: Add 2 bundles of knotgrass to the cauldron.
+(stepAction PP_Step2 Incorporation-Physical)
+(stepTool PP_Step2 cauldron)
+(stepIngredient PP_Step2 knotgrassBundle 2)
+
+;; Step 3: Stir 4 times, clockwise.
+(stepAction PP_Step3 Stir)
+(stepTool PP_Step3 cauldron)
+
+;; Step 4: Wave your wand then let potion brew for 80 minutes 
+(stepAction PP_Step4 NoAction)
+(stepTool PP_Step4 cauldron)
+
+;; Step 5: Add 4 leeches to the cauldron.
+(stepAction PP_Step5 Incorporation-Physical)
+(stepTool PP_Step5 cauldron)
+(stepIngredient PP_Step5 leeches 4)
+
+;; Step 6: Add 2 scoops of lacewing flies to the mortar, crush to a fine paste, then add 2 measures of the crushed lacewings to the cauldron.
+(stepAction PP_Step6 Incorporation-Physical)
+(stepTool PP_Step6 cauldron)
+(stepIngredient PP_Step6 crushedLacewingScoop 2)
+
+;; Step 7: Heat for 30 seconds on a low heat.
+(stepAction PP_Step7 Heat)
+(stepTool PP_Step7 Cauldron)
+
+;; Step 8: Wave your wand to complete this stage of the potion. 
+(stepAction PP_Step8 NoAction)
+(stepTool PP_Step8 cauldron)
+
+;; Step 9: Add 3 measures of boomslang skin to the cauldron.
+(stepAction PP_Step9 Incorporation-Physical)
+(stepTool PP_Step9 cauldron)
+(stepIngredient PP_Step9 boomslangSkin 3)
+
+;; Step 10: Add 1 measure of bicorn horn to the mortar, crush to a fine powder, then add one measure of the crushed horn to the cauldron.
+(stepAction PP_Step10 Incorporation-Physical)
+(stepTool PP_Step10 cauldron)
+(stepIngredient PP_Step10 crushedBicornHorn 1)
+
+;; Step 11: Heat for 20 seconds at a high temperature.
+(stepAction PP_Step11 Heat)
+(stepTool PP_Step11 Cauldron)
+
+;; Step 12: Wave your wand then let potion brew for 24 hours (for a Pewter Cauldron. A Brass Cauldron will only require 1224 minutes, and a copper one only 18 hours)
+(stepAction PP_Step12 NoAction)
+(stepTool PP_Step12 cauldron)
+
+;; Step 13: Add 1 additional scoop of lacewings to the cauldron.
+(stepAction PP_Step13 Incorporation-Physical)
+(stepTool PP_Step13 cauldron)
+(stepIngredient PP_Step13 crushedLacewingScoop 1)
+
+;; Step 14: Stir 3 times, counter-clockwise.
+(stepAction PP_Step14 Stir)
+(stepTool PP_Step14 cauldron)
+
+;; Step 15: Split potion into multiple doses, if desired, then add the pieces of the person you wish to become.
+(stepAction PP_Step15 Incorporation-Physical)
+(stepTool PP_Step15 cauldron)
+(stepIngredient PP_Step15 addPerson 1)
+
+;; Step 15 Wave your wand to complete the potion.
+(stepAction PP_Step12 NoAction)
+(stepTool PP_Step12 cauldron)

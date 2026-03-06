@@ -12,9 +12,9 @@
 (in DraughtOfLivingDeathPotionMt)
 
 ;;; we know that draught of peace is a potion and a recipee connected by potionHasRecipee
-(isa Draught_Of_Peace_Potion Potion)
-(isa Draught_Of_Peace_Recipee PotionRecipees)
-(potionHasRecipee Draught_Of_Peace_Potion Draught_Of_Peace_Recipee)
+(isa Draught_Of_Living_Death_Potion Potion)
+(isa Draught_Of_Living_Death_Recipee PotionRecipees)
+(potionHasRecipee Draught_Of_Living_Death_Potion Draught_Of_Living_Death_Recipee)
 
 ;;; each potionHasRecipee has multiple steps we call potion step
 (isa potionStep Collection)
@@ -41,19 +41,31 @@
 (isa DP_Step9 potionStep)
 (isa DP_Step10 potionStep)
 (isa DP_Step11 potionStep)
+(isa DP_Step12 potionStep)
+(isa DP_Step13 potionStep)
+(isa DP_Step14 potionStep)
+(isa DP_Step15 potionStep)
+(isa DP_Step16 potionStep)
+
 
 ;;; Put steps into the recipe
-(hasSteps Draught_of_Peace_Recipe DP_Step1)
-(hasSteps Draught_of_Peace_Recipe DP_Step2)
-(hasSteps Draught_of_Peace_Recipe DP_Step3)
-(hasSteps Draught_of_Peace_Recipe DP_Step4)
-(hasSteps Draught_of_Peace_Recipe DP_Step5)
-(hasSteps Draught_of_Peace_Recipe DP_Step6)
-(hasSteps Draught_of_Peace_Recipe DP_Step7)
-(hasSteps Draught_of_Peace_Recipe DP_Step8)
-(hasSteps Draught_of_Peace_Recipe DP_Step9)
-(hasSteps Draught_of_Peace_Recipe DP_Step10)
-(hasSteps Draught_of_Peace_Recipe DP_Step11)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step1)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step2)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step3)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step4)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step5)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step6)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step7)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step8)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step9)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step10)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step11)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step12)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step13)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step14)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step15)
+(hasSteps Draught_Of_Living_Death_Recipee DP_Step16)
+
 
 ;;; Ordering (precedes constraints)
 (precedesStep DP_Step1 DP_Step2)
@@ -66,6 +78,11 @@
 (precedesStep DP_Step8 DP_Step9)
 (precedesStep DP_Step9 DP_Step10)
 (precedesStep DP_Step10 DP_Step11)
+(precedesStep DP_Step10 DP_Step12)
+(precedesStep DP_Step10 DP_Step13)
+(precedesStep DP_Step10 DP_Step14)
+(precedesStep DP_Step10 DP_Step15)
+(precedesStep DP_Step10 DP_Step16)
 
 
 ;;; a step has an action
@@ -82,22 +99,88 @@
 (isa stepIngredient TernaryPredicate)
 (arg1Isa stepIngredient potionStep)
 (arg2Isa stepIngredient PotionIngredients)  ; ingredient
-(arg3Isa stepIngredient Integer) ; count of ingredient subject to change
 
-;; Add powdered moonstone until the potion turns green.
+;; Cut up the Sopophorous Bean
 (stepAction DP_Step1 Incorporation-Physical)
 (stepTool DP_Step1 cauldron)
 (stepIngredient DP_Step1 powderedMoonstone)
 
-;; Stir until the potion turns blue.
-(stepAction DP_Step2 Stir)
-(stepTool DP_Step2 cauldron)
+;; Pour in 250 fl.oz. of Standard potioning water and add 5 oz. of African Sea Salt to the beaker. Set the beaker aside after all the water has been added. Be very careful not to shake or move the beaker now.
+(stepAction DP_Step2 Incorporation-Physical)
+(stepTool DP_Step2 beaker)
+(stepIngredient DP_Step2 waterAndSalt 5)
 
-;; Add powdered moonstone until the potion turns purple.
+;; Leave the water and salt to rest for five minutes.
 (stepAction DP_Step3 Incorporation-Physical)
-(stepTool DP_Step3 cauldron)
+(stepTool DP_Step3 beaker)
 (stepIngredient DP_Step3 powderedMoonstone)
 
-;; Allow to simmer until the potion turns pink.
-(stepAction DP_Step4 Heat)
+;; Slowly pour all the water into the cauldron.
+(stepAction DP_Step4 Incorporation-Physical)
+(stepTool DP_Step4 cauldron)
+(stepIngredient DP_Step4 beaker)
+
+;; With your left hand use the graduated cylinder to obtain 40 fl.oz. of essence of wormwood.
+;; With your right hand hold the cauldron at a slight angle and pour ten drops (20 fl.oz.) of essence of wormwood.
+
+(stepAction DP_Step4 Incorporation-Physical)
 (stepTool DP_Step4 Cauldron)
+(stepIngredient DP_Step3 wormwood) ;; how are we encoding ounces? 
+
+;; Now with your left hand hold the cauldron at a slightly different angle and pour another ten drops of wormwood essence.
+
+(stepAction DP_Step5 Incorporation-Physical)
+(stepTool DP_Step5 Cauldron)
+(stepIngredient DP_Step5 wormwood) ;; include how many drops in the future/ or write as limitation 
+
+;; Chop three Valerian roots into small squared pieces. After cutting place it in a beaker with water. Leave it to settle for five minutes. Your potion should now be resembling a smooth blackcurrant-coloured liquid.
+(stepAction DP_Step6 Incorporation-Physical)
+(stepTool DP_Step6 beaker)
+(stepIngredient DP_Step6 valerianroots_water 3)
+
+
+;; Carefully pour the Sopophorous Bean's juice into the cauldron
+(stepAction DP_Step7 Incorporation-Physical)
+(stepTool DP_Step7 cauldron)
+(stepIngredient DP_Step7 sopophorusBeanJuice)
+
+;; Add seven drops of the reduced liquid from the beaker; make sure there are no traces or fragments of Valerian root.
+(stepAction DP_Step8 Incorporation-Physical)
+(stepTool DP_Step8 cauldron)
+(stepIngredient DP_Step8 valerianroots_water 7)
+
+;; Stir the potion ten times clockwise; your potion should now be turning a light shade of lilac.
+(stepAction DP_Step9 Stir)
+(stepTool DP_Step9 cauldron)
+
+;; With your right hand stir the potion counterclockwise until the potion turns as clear as water; every stir should take approximately two and a half seconds.
+(stepAction DP_Step10 Stir)
+(stepTool DP_Step10 cauldron)
+
+;; Slowly put in seven square pieces of Valerian root.
+(stepAction DP_Step11 Incorporation-Physical)
+(stepTool DP_Step11 cauldron)
+(stepIngredient DP_Step11 valerianroots_water 7)
+
+;; Stir the potion ten times counterclockwise.
+(stepAction DP_Step12 Stir)
+(stepTool DP_Step12 cauldron)
+
+;; Add one hundred and fifty fl.oz. of Powdered Root of Asphodel.
+(stepAction DP_Step13 Incorporation-Physical)
+(stepTool DP_Step13 cauldron)
+(stepIngredient DP_Step13 powdered_root_Asphodel)
+
+;; Stir the potion ten times counterclockwise and eight times clockwise.
+(stepAction DP_Step14 Stir)
+(stepTool DP_Step14 cauldron)
+
+;; Leave the potion to settle for two and a half minutes.
+(stepAction DP_Step15 NoAction)
+(stepTool DP_Step15 cauldron)
+
+;; Add one small piece of Valerian root.
+(stepAction DP_Step16 Incorporation-Physical)
+(stepTool DP_Step16 cauldron)
+(stepIngredient DP_Step16 valerianroot)
+
