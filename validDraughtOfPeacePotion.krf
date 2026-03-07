@@ -1,0 +1,163 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: validDraughtOfPeacePotion.krf
+;;;;    System: FIRE
+;;;;    Author: Victoria Ng
+;;;;   Created: Mar 7, 2025
+;;;;   Purpose: 371 Final Assignment — validity rules and drinker state rules
+;;;;            for the Draught of Peace.
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Mar 7, 2025
+;;;; ---------------------------------------------------------------------------
+
+(in-microtheory DraughtOfPeacePotionMt)
+
+;;; -----------------------------------------------------------------------
+;;; BUG NOTE for team (1 — recipe name mismatch):
+;;; draughtOfPeacePotionrules.krf declares the recipe as Draught_Of_Peace_Recipee
+;;; in its (isa ...) and (potionHasRecipee ...) lines, but then uses the
+;;; different name Draught_of_Peace_Recipe (lowercase 'o') in all hasSteps lines.
+;;; This file uses Draught_Of_Peace_Recipee (the isa-declared name).
+;;; The hasSteps lines in draughtOfPeacePotionrules.krf should be corrected
+;;; to use Draught_Of_Peace_Recipee for consistency.
+;;;
+;;; BUG NOTE for team (2 — step name collision):
+;;; draughtOfPeacePotionrules.krf declares steps DP_Step1 through DP_Step11
+;;; but draughtOfLivingDeathPotionRules.krf also uses DP_Step1 through DP_Step16.
+;;; The two sets of steps will clash in the reasoner. Recommend renaming the
+;;; Draught of Peace steps to DOP_Step1..DOP_Step11 in the recipe file.
+;;;
+;;; BUG NOTE for team (3 — undeclared steps in stepAction):
+;;; draughtOfPeacePotionrules.krf uses stepAction/stepIngredient on
+;;; DP_Step12 through DP_Step16, but never declares them with (isa DOP_StepN potionStep).
+;;; Those steps are not encoded in the reasoner and are noted as a limitation here.
+;;; -----------------------------------------------------------------------
+
+;;; NOTE: attemptPerformsStep and requiredIngredient predicates are defined
+;;; in validPolyjuicePotion.krf. Load that file before this one.
+
+;;; ---------------------------------------------------------------------------
+;;; Required ingredients for Draught of Peace
+;;; (sourced from stepIngredient facts in draughtOfPeacePotionrules.krf)
+;;; Only ingredients for the declared steps DP_Step1–DP_Step11 are included.
+;;; ---------------------------------------------------------------------------
+
+(requiredIngredient Draught_Of_Peace_Recipee powderedMoonstone)    ;;; DP_Steps 1 & 3
+(requiredIngredient Draught_Of_Peace_Recipee helleboreSyrup)        ;;; DP_Step5
+(requiredIngredient Draught_Of_Peace_Recipee stewedMandrake)        ;;; DP_Steps 5, 6, 8 & 10
+(requiredIngredient Draught_Of_Peace_Recipee powderedUnicornHorn)   ;;; declared in DP_Step12 (see bug note 3)
+(requiredIngredient Draught_Of_Peace_Recipee PorcupineQuills)       ;;; declared in DP_Step16 (see bug note 3)
+
+;;; ---------------------------------------------------------------------------
+;;; Valid Draught of Peace attempt instance
+;;; Represents a student who used all correct ingredients and performed
+;;; all 11 declared steps in the correct order.
+;;; Note: steps 12-16 from the source file are excluded due to bug note 3.
+;;; ---------------------------------------------------------------------------
+
+(isa DraughtOfPeaceAttempt1 PotionAttempt)
+
+(hasIngredient DraughtOfPeaceAttempt1 powderedMoonstone)
+(hasIngredient DraughtOfPeaceAttempt1 helleboreSyrup)
+(hasIngredient DraughtOfPeaceAttempt1 stewedMandrake)
+(hasIngredient DraughtOfPeaceAttempt1 powderedUnicornHorn)
+(hasIngredient DraughtOfPeaceAttempt1 PorcupineQuills)
+
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step1)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step2)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step3)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step4)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step5)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step6)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step7)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step8)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step9)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step10)
+(attemptPerformsStep DraughtOfPeaceAttempt1 DP_Step11)
+
+;;; ---------------------------------------------------------------------------
+;;; Validity rules — ingredient checking
+;;; ---------------------------------------------------------------------------
+
+(<== (potionAttemptMissingIngredient ?attempt ?ingredient)
+     (isa ?attempt PotionAttempt)
+     (requiredIngredient Draught_Of_Peace_Recipee ?ingredient)
+     (not (hasIngredient ?attempt ?ingredient)))
+
+(=> (potionAttemptMissingIngredient ?attempt ?ingredient)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; ---------------------------------------------------------------------------
+;;; Validity rules — step ordering
+;;; ---------------------------------------------------------------------------
+
+(<== (attemptHasStepsOutOfOrder ?attempt)
+     (attemptPerformsStep ?attempt ?step2)
+     (precedesStep ?step1 ?step2)
+     (not (attemptPerformsStep ?attempt ?step1)))
+
+(=> (attemptHasStepsOutOfOrder ?attempt)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; ---------------------------------------------------------------------------
+;;; Drinker state predicates specific to Draught of Peace
+;;; ---------------------------------------------------------------------------
+
+;;; (isAnxious ?person) — the person is currently in a state of anxiety,
+;;; worry, or agitation. This is the required state for the potion to work.
+(isa isAnxious UnaryPredicate)
+(arg1Isa isAnxious Animal)
+(comment isAnxious
+  "(isAnxious ?person) means ?person is currently experiencing anxiety,
+   agitation, or worry. This is the required state for the Draught of Peace
+   to have its intended calming effect.")
+
+;;; (isCalm ?person) — the person is in a peaceful, calm state.
+(isa isCalm UnaryPredicate)
+(arg1Isa isCalm Animal)
+(comment isCalm
+  "(isCalm ?person) means ?person is currently in a calm, peaceful state.")
+
+;;; (isOverdosedOnPeacePotion ?person) — the person consumed an excessive
+;;; quantity of the Draught of Peace, triggering an unintended side-effect.
+(isa isOverdosedOnPeacePotion UnaryPredicate)
+(arg1Isa isOverdosedOnPeacePotion Animal)
+(comment isOverdosedOnPeacePotion
+  "(isOverdosedOnPeacePotion ?person) means ?person consumed far too much of
+   the Draught of Peace and is experiencing overdose side-effects.")
+
+;;; (isFloating ?person) — the person is magically suspended above the ground
+;;; as a result of overdosing on the Draught of Peace (as seen in OOTP).
+(isa isFloating UnaryPredicate)
+(arg1Isa isFloating Animal)
+(comment isFloating
+  "(isFloating ?person) means ?person is hovering above the ground due to
+   an overdose of the Draught of Peace.")
+
+;;; ---------------------------------------------------------------------------
+;;; Drinker effect rules
+;;; ---------------------------------------------------------------------------
+
+;;; Case 1: Drinker is already calm and not anxious — potion has no effect.
+(=> (and (drinks ?person DraughtOfPeaceAttempt1)
+         (isCalm ?person)
+         (not (isAnxious ?person)))
+    (noEffectFromPotion ?person DraughtOfPeaceAttempt1))
+
+;;; Case 2: Drinker is anxious and not overdosed — becomes calm.
+(=> (and (drinks ?person DraughtOfPeaceAttempt1)
+         (isAnxious ?person)
+         (not (isOverdosedOnPeacePotion ?person)))
+    (and (isCalm ?person)
+         (not (isAnxious ?person))))
+
+;;; Case 3: Drinker has taken too much of the potion — becomes calm but
+;;; also begins floating above the ground as an unintended side-effect.
+(=> (and (drinks ?person DraughtOfPeaceAttempt1)
+         (isOverdosedOnPeacePotion ?person))
+    (and (isCalm ?person)
+         (isFloating ?person)
+         (not (isAnxious ?person))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; End of Code

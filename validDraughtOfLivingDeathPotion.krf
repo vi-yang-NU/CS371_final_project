@@ -1,0 +1,139 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: validDraughtOfLivingDeathPotion.krf
+;;;;    System: FIRE
+;;;;    Author: Victoria Ng
+;;;;   Created: Mar 7, 2025
+;;;;   Purpose: 371 Final Assignment — validity rules and drinker state rules
+;;;;            for the Draught of Living Death.
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Mar 7, 2025
+;;;; ---------------------------------------------------------------------------
+
+(in-microtheory DraughtOfLivingDeathPotionMt)
+
+;;; -----------------------------------------------------------------------
+;;; BUG NOTE for team: both draughtOfLivingDeathPotionRules.krf and
+;;; draughtOfPeacePotionrules.krf use the DP_Step prefix for their steps.
+;;; This causes a naming collision in the reasoner. Recommend renaming the
+;;; Draught of Living Death steps to DLD_Step1..DLD_Step16 to avoid ambiguity.
+;;; -----------------------------------------------------------------------
+
+;;; NOTE: attemptPerformsStep and requiredIngredient predicates are defined
+;;; in validPolyjuicePotion.krf. Load that file before this one.
+
+;;; ---------------------------------------------------------------------------
+;;; Required ingredients for Draught of Living Death
+;;; (sourced from stepIngredient facts in draughtOfLivingDeathPotionRules.krf)
+;;; ---------------------------------------------------------------------------
+
+(requiredIngredient Draught_Of_Living_Death_Recipee powderedMoonstone)   ;;; DP_Steps 1 & 3
+(requiredIngredient Draught_Of_Living_Death_Recipee waterAndSalt)         ;;; DP_Step2
+(requiredIngredient Draught_Of_Living_Death_Recipee wormwood)             ;;; DP_Steps 4 & 5
+(requiredIngredient Draught_Of_Living_Death_Recipee valerianroots_water)  ;;; DP_Steps 6, 8 & 11
+(requiredIngredient Draught_Of_Living_Death_Recipee sopophorusBeanJuice)  ;;; DP_Step7
+(requiredIngredient Draught_Of_Living_Death_Recipee powdered_root_Asphodel) ;;; DP_Step13
+(requiredIngredient Draught_Of_Living_Death_Recipee valerianroot)         ;;; DP_Step16 — single small piece
+
+;;; ---------------------------------------------------------------------------
+;;; Valid Draught of Living Death attempt instance
+;;; Represents a student who used all correct ingredients and performed
+;;; all 16 steps in the correct order.
+;;; ---------------------------------------------------------------------------
+
+(isa DraughtOfLivingDeathAttempt1 PotionAttempt)
+
+(hasIngredient DraughtOfLivingDeathAttempt1 powderedMoonstone)
+(hasIngredient DraughtOfLivingDeathAttempt1 waterAndSalt)
+(hasIngredient DraughtOfLivingDeathAttempt1 wormwood)
+(hasIngredient DraughtOfLivingDeathAttempt1 valerianroots_water)
+(hasIngredient DraughtOfLivingDeathAttempt1 sopophorusBeanJuice)
+(hasIngredient DraughtOfLivingDeathAttempt1 powdered_root_Asphodel)
+(hasIngredient DraughtOfLivingDeathAttempt1 valerianroot)
+
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step1)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step2)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step3)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step4)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step5)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step6)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step7)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step8)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step9)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step10)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step11)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step12)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step13)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step14)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step15)
+(attemptPerformsStep DraughtOfLivingDeathAttempt1 DP_Step16)
+
+;;; ---------------------------------------------------------------------------
+;;; Validity rules — ingredient checking
+;;; ---------------------------------------------------------------------------
+
+;;; Derive that a required ingredient is missing from an attempt
+(<== (potionAttemptMissingIngredient ?attempt ?ingredient)
+     (isa ?attempt PotionAttempt)
+     (requiredIngredient Draught_Of_Living_Death_Recipee ?ingredient)
+     (not (hasIngredient ?attempt ?ingredient)))
+
+;;; Any missing ingredient makes the attempt invalid
+(=> (potionAttemptMissingIngredient ?attempt ?ingredient)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; ---------------------------------------------------------------------------
+;;; Validity rules — step ordering
+;;; ---------------------------------------------------------------------------
+
+;;; NOTE: draughtOfLivingDeathPotionRules.krf defines a branching structure
+;;; at DP_Step10 — steps 11 through 16 all have (precedesStep DP_Step10 DP_StepN).
+;;; This means steps 11-16 may be performed in any order after step 10.
+;;; The out-of-order rule below respects this: it only fires if a step is
+;;; performed without its declared predecessor, matching the recipe's own logic.
+
+(<== (attemptHasStepsOutOfOrder ?attempt)
+     (attemptPerformsStep ?attempt ?step2)
+     (precedesStep ?step1 ?step2)
+     (not (attemptPerformsStep ?attempt ?step1)))
+
+(=> (attemptHasStepsOutOfOrder ?attempt)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; ---------------------------------------------------------------------------
+;;; Drinker state predicates specific to Draught of Living Death
+;;; ---------------------------------------------------------------------------
+
+;;; (isConscious ?person) — the person or creature is currently awake
+;;; and conscious. This is the required state for the potion to have its effect.
+(isa isConscious UnaryPredicate)
+(arg1Isa isConscious Animal)
+(comment isConscious
+  "(isConscious ?person) means ?person is currently awake and conscious.")
+
+;;; (isInDeathLikeSleep ?person) — the person is in the profound death-like
+;;; sleep induced by the Draught of Living Death. They appear dead but are not.
+(isa isInDeathLikeSleep UnaryPredicate)
+(arg1Isa isInDeathLikeSleep Animal)
+(comment isInDeathLikeSleep
+  "(isInDeathLikeSleep ?person) means ?person is in the deep, death-like
+   sleep caused by the Draught of Living Death. They are alive but appear dead.")
+
+;;; ---------------------------------------------------------------------------
+;;; Drinker effect rules
+;;; ---------------------------------------------------------------------------
+
+;;; Case 1: Drinker is already in a death-like sleep — no further effect.
+(=> (and (drinks ?person DraughtOfLivingDeathAttempt1)
+         (isInDeathLikeSleep ?person))
+    (noEffectFromPotion ?person DraughtOfLivingDeathAttempt1))
+
+;;; Case 2: Drinker is conscious — falls into a profound death-like sleep.
+(=> (and (drinks ?person DraughtOfLivingDeathAttempt1)
+         (isConscious ?person)
+         (not (isInDeathLikeSleep ?person)))
+    (and (isInDeathLikeSleep ?person)
+         (not (isConscious ?person))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; End of Code

@@ -1,0 +1,135 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: validShrinkingPotion.krf
+;;;;    System: FIRE
+;;;;    Author: Victoria Ng
+;;;;   Created: Mar 7, 2025
+;;;;   Purpose: 371 Final Assignment — validity rules and drinker state rules
+;;;;            for the Shrinking Solution.
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Mar 7, 2025
+;;;; ---------------------------------------------------------------------------
+
+(in-microtheory ShrinkingPotionMt)
+
+;;; -----------------------------------------------------------------------
+;;; BUG NOTE for team: shrinkingPotionrules.krf opens with (in CureBoilPotionMt)
+;;; instead of its own microtheory. All Shrinking Solution facts are currently
+;;; loaded into the CureBoil microtheory. This file uses ShrinkingPotionMt.
+;;; The first line of shrinkingPotionrules.krf should be corrected to:
+;;;   (in-microtheory ShrinkingPotionMt)
+;;;   (isa ShrinkingPotionMt Microtheory)
+;;;   (genlMt ShrinkingPotionMt HarryPotterPotionsMt)
+;;; -----------------------------------------------------------------------
+
+;;; NOTE: attemptPerformsStep and requiredIngredient predicates are defined
+;;; in validPolyjuicePotion.krf. Load that file before this one.
+
+;;; ---------------------------------------------------------------------------
+;;; Required ingredients for Shrinking Solution
+;;; (sourced from stepIngredient facts in shrinkingPotionrules.krf)
+;;; ---------------------------------------------------------------------------
+
+(requiredIngredient Shrinking_Potion_Recipee caterpillars)  ;;; SP_Steps 1 & 12
+(requiredIngredient Shrinking_Potion_Recipee Shrivelfig)    ;;; SP_Steps 3, 4, 5 & 11
+(requiredIngredient Shrinking_Potion_Recipee ratSpleens)    ;;; SP_Step7
+(requiredIngredient Shrinking_Potion_Recipee daisyRoots)    ;;; SP_Steps 8 & 9
+(requiredIngredient Shrinking_Potion_Recipee leechJuice)    ;;; SP_Step10
+
+;;; ---------------------------------------------------------------------------
+;;; Valid Shrinking Solution attempt instance
+;;; Represents a student who used all correct ingredients and performed
+;;; all 13 steps in the correct order.
+;;; ---------------------------------------------------------------------------
+
+(isa ShrinkingAttempt1 PotionAttempt)
+
+(hasIngredient ShrinkingAttempt1 caterpillars)
+(hasIngredient ShrinkingAttempt1 Shrivelfig)
+(hasIngredient ShrinkingAttempt1 ratSpleens)
+(hasIngredient ShrinkingAttempt1 daisyRoots)
+(hasIngredient ShrinkingAttempt1 leechJuice)
+
+(attemptPerformsStep ShrinkingAttempt1 SP_Step1)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step2)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step3)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step4)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step5)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step6)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step7)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step8)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step9)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step10)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step11)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step12)
+(attemptPerformsStep ShrinkingAttempt1 SP_Step13)
+
+;;; ---------------------------------------------------------------------------
+;;; Validity rules — ingredient checking
+;;; ---------------------------------------------------------------------------
+
+(<== (potionAttemptMissingIngredient ?attempt ?ingredient)
+     (isa ?attempt PotionAttempt)
+     (requiredIngredient Shrinking_Potion_Recipee ?ingredient)
+     (not (hasIngredient ?attempt ?ingredient)))
+
+(=> (potionAttemptMissingIngredient ?attempt ?ingredient)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; ---------------------------------------------------------------------------
+;;; Validity rules — step ordering
+;;; ---------------------------------------------------------------------------
+
+;;; NOTE: The Shrivelfig must be peeled (SP_Step3 RemovingSomething) before it
+;;; is blended (SP_Step4 Churning) and before it is added to the cauldron
+;;; (SP_Step5 Incorporation-Physical). The precedesStep chain enforces this.
+;;; Skipping the peeling step is also covered by the hazards file:
+;;; unpeeled Shrivelfig added to the cauldron backfires on the brewer.
+
+(<== (attemptHasStepsOutOfOrder ?attempt)
+     (attemptPerformsStep ?attempt ?step2)
+     (precedesStep ?step1 ?step2)
+     (not (attemptPerformsStep ?attempt ?step1)))
+
+(=> (attemptHasStepsOutOfOrder ?attempt)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; ---------------------------------------------------------------------------
+;;; Drinker state predicates specific to Shrinking Solution
+;;; ---------------------------------------------------------------------------
+
+;;; (isFullSize ?creature) — the creature is currently at its normal,
+;;; full adult size. This is the required state for the potion to work.
+(isa isFullSize UnaryPredicate)
+(arg1Isa isFullSize Animal)
+(comment isFullSize
+  "(isFullSize ?creature) means ?creature is currently at its normal adult
+   size and has not been shrunken by any previous Shrinking Solution.")
+
+;;; (isShrunken ?creature) — the creature has been reduced to a younger or
+;;; smaller physical form by the Shrinking Solution.
+(isa isShrunken UnaryPredicate)
+(arg1Isa isShrunken Animal)
+(comment isShrunken
+  "(isShrunken ?creature) means ?creature has been shrunk to a younger or
+   smaller state by the Shrinking Solution.")
+
+;;; ---------------------------------------------------------------------------
+;;; Drinker effect rules
+;;; ---------------------------------------------------------------------------
+
+;;; Case 1: Creature is already shrunken — potion has no further effect.
+(=> (and (drinks ?creature ShrinkingAttempt1)
+         (isShrunken ?creature))
+    (noEffectFromPotion ?creature ShrinkingAttempt1))
+
+;;; Case 2: Creature is full size — shrinks to a younger/smaller state.
+;;; The Shrinking Solution works on any living creature, not only humans.
+(=> (and (drinks ?creature ShrinkingAttempt1)
+         (isFullSize ?creature)
+         (not (isShrunken ?creature)))
+    (and (isShrunken ?creature)
+         (not (isFullSize ?creature))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; End of Code

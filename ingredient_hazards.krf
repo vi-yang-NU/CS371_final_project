@@ -1,0 +1,175 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: ingredient_hazards.krf
+;;;;    System: FIRE
+;;;;    Author: Victoria Ng
+;;;;   Created: Mar 7, 2025
+;;;;   Purpose: 371 Final Assignment — encodes ingredient-level hazards that
+;;;;            can injure or kill the student making the potion. A hazard fires
+;;;;            when a brewing attempt applies a dangerous action to a sensitive
+;;;;            ingredient, or skips a required safety step (e.g. cooling before
+;;;;            adding Porcupine Quills).
+;;;;            This gives the knowledge base an additional interesting example
+;;;;            of Horn clause reasoning beyond the single existing test case.
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Mar 7, 2025
+;;;; ---------------------------------------------------------------------------
+
+(in-microtheory HarryPotterIngredientsMt)
+
+;;; NOTE: attemptPerformsStep is defined in validPolyjuicePotion.krf.
+;;; Load that file before this one.
+
+;;; ---------------------------------------------------------------------------
+;;; Hazard outcome collection
+;;; ---------------------------------------------------------------------------
+
+(isa HazardOutcome Collection)
+(comment HazardOutcome
+  "A HazardOutcome is a consequence that befalls the brewer when a dangerous
+   action is applied to a sensitive ingredient during potion-making.")
+
+(isa Explosion HazardOutcome)
+(comment Explosion
+  "An Explosion is a violent hazard outcome triggered by heating certain
+   sensitive ingredients such as Porcupine Quills.")
+
+(isa BackfireEffect HazardOutcome)
+(comment BackfireEffect
+  "A BackfireEffect is a hazard outcome where a skipped preparation step
+   causes the potion to react against the brewer rather than the drinker.")
+
+;;; ---------------------------------------------------------------------------
+;;; dangerousIngredientAction predicate
+;;; Encodes which (ingredient, action) pairs are hazardous and what the
+;;; resulting consequence is for the brewer.
+;;; ---------------------------------------------------------------------------
+
+(isa dangerousIngredientAction TernaryPredicate)
+(arg1Isa dangerousIngredientAction PotionIngredients)
+(arg2Isa dangerousIngredientAction Collection)    ;;; the action (e.g. Heat)
+(arg3Isa dangerousIngredientAction HazardOutcome)
+(comment dangerousIngredientAction
+  "(dangerousIngredientAction ?ingredient ?action ?outcome) means that
+   applying ?action directly to ?ingredient during brewing produces ?outcome,
+   which endangers the person making the potion.")
+
+;;; Porcupine Quills explode when heated directly.
+;;; In the Cure Boils recipe, CB_Step8 (CoolingProcess) must be performed
+;;; before CB_Step9 (adding quills). If that cooling step is skipped, the
+;;; quills are added to a still-hot cauldron and the heat triggers an explosion.
+(dangerousIngredientAction PorcupineQuills Heat Explosion)
+
+;;; Shrivelfig must be peeled (RemovingSomething) before being blended and
+;;; added to the Shrinking Solution cauldron. Adding it unpeeled causes the
+;;; potion to backfire on the brewer.
+(dangerousIngredientAction Shrivelfig Incorporation-Physical BackfireEffect)
+
+;;; ---------------------------------------------------------------------------
+;;; requiresSafetyStepBefore predicate
+;;; Encodes which safety step must be performed immediately before a sensitive
+;;; ingredient is added, to prevent the hazard from triggering.
+;;; ---------------------------------------------------------------------------
+
+(isa requiresSafetyStepBefore TernaryPredicate)
+(arg1Isa requiresSafetyStepBefore PotionIngredients)
+(arg2Isa requiresSafetyStepBefore potionStep) ;;; the safety step required
+(arg3Isa requiresSafetyStepBefore potionStep) ;;; the addition step it protects
+(comment requiresSafetyStepBefore
+  "(requiresSafetyStepBefore ?ingredient ?safetyStep ?addStep) means
+   ?safetyStep must be performed before ?addStep to safely handle ?ingredient.
+   If ?safetyStep is skipped, adding ?ingredient triggers a hazard.")
+
+;;; CB_Step8 (CoolingProcess) must precede CB_Step9 (adding PorcupineQuills).
+(requiresSafetyStepBefore PorcupineQuills CB_Step8 CB_Step9)
+
+;;; SP_Step3 (RemovingSomething — peeling the Shrivelfig) must precede
+;;; SP_Step5 (Incorporation-Physical — adding Shrivelfig to the cauldron).
+(requiresSafetyStepBefore Shrivelfig SP_Step3 SP_Step5)
+
+;;; ---------------------------------------------------------------------------
+;;; makerIsHarmed predicate
+;;; ---------------------------------------------------------------------------
+
+(isa makerIsHarmed BinaryPredicate)
+(arg1Isa makerIsHarmed PotionAttempt)
+(arg2Isa makerIsHarmed HazardOutcome)
+(comment makerIsHarmed
+  "(makerIsHarmed ?attempt ?outcome) means the student performing ?attempt
+   suffered ?outcome as a consequence of a brewing hazard they triggered.")
+
+;;; ---------------------------------------------------------------------------
+;;; Hazard Horn clauses
+;;; ---------------------------------------------------------------------------
+
+;;; Hazard 1 — Direct dangerous action on a sensitive ingredient.
+;;; Fires when the attempt performs a step that BOTH applies a dangerous
+;;; action AND involves the sensitive ingredient in the same step.
+;;; Example: a student somehow heats PorcupineQuills in the same step
+;;; they add them (e.g. they add quills while the heat is still on).
+(<== (brewingHazardTriggered ?attempt ?ingredient ?outcome)
+     (attemptPerformsStep ?attempt ?step)
+     (stepAction ?step ?action)
+     (stepIngredient ?step ?ingredient ?qty)
+     (dangerousIngredientAction ?ingredient ?action ?outcome))
+
+;;; Also handle stepIngredient facts without a quantity argument
+;;; (some ingredients in the KB are encoded without a count, e.g. Shrivelfig).
+(<== (brewingHazardTriggered ?attempt ?ingredient ?outcome)
+     (attemptPerformsStep ?attempt ?step)
+     (stepAction ?step ?action)
+     (stepIngredient ?step ?ingredient)
+     (dangerousIngredientAction ?ingredient ?action ?outcome))
+
+;;; Hazard 2 — Required safety step was skipped before adding ingredient.
+;;; Fires when an attempt performs the addition step for a sensitive ingredient
+;;; but did NOT perform the required safety step that should precede it.
+;;; Example: student adds PorcupineQuills (CB_Step9) without having first
+;;; cooled the cauldron (CB_Step8) — quills are heated → explosion.
+(<== (brewingHazardTriggered ?attempt ?ingredient ?outcome)
+     (requiresSafetyStepBefore ?ingredient ?safetyStep ?addStep)
+     (attemptPerformsStep ?attempt ?addStep)
+     (not (attemptPerformsStep ?attempt ?safetyStep))
+     (dangerousIngredientAction ?ingredient Heat ?outcome))
+
+;;; ---------------------------------------------------------------------------
+;;; Consequence rules — hazard → maker harmed
+;;; ---------------------------------------------------------------------------
+
+;;; If any brewing hazard was triggered, the maker is harmed with that outcome.
+(=> (brewingHazardTriggered ?attempt ?ingredient ?outcome)
+    (makerIsHarmed ?attempt ?outcome))
+
+;;; If the maker suffers an explosion, the potion attempt is also invalid
+;;; (an explosion destroys the potion along with harming the brewer).
+(=> (makerIsHarmed ?attempt Explosion)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; ---------------------------------------------------------------------------
+;;; Example test scenario (mirrors the student_sample.krf style)
+;;; A student making Cure Boils skips the cooling step before adding quills.
+;;; Query: (makerIsHarmed CureBoilsHazardAttempt1 ?outcome) → Explosion
+;;; ---------------------------------------------------------------------------
+
+(isa CureBoilsHazardAttempt1 PotionAttempt)
+
+;;; Student has all ingredients
+(hasIngredient CureBoilsHazardAttempt1 SnakeFangs)
+(hasIngredient CureBoilsHazardAttempt1 HornedSlugs)
+(hasIngredient CureBoilsHazardAttempt1 PorcupineQuills)
+
+;;; Student performs all steps EXCEPT CB_Step8 (the CoolingProcess step)
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step1)
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step2)
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step3)
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step4)
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step5)
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step6)
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step7)
+;;; CB_Step8 (CoolingProcess) INTENTIONALLY SKIPPED — triggers hazard
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step9)
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step10)
+(attemptPerformsStep CureBoilsHazardAttempt1 CB_Step11)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; End of Code

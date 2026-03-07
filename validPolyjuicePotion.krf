@@ -1,0 +1,193 @@
+;;;; -*-  Mode: LISP; Syntax: Common-Lisp; Base: 10                          -*-
+;;;; ---------------------------------------------------------------------------
+;;;; File name: validPolyjuicePotion.krf
+;;;;    System: FIRE
+;;;;    Author: Victoria Ng
+;;;;   Created: Mar 7, 2025
+;;;;   Purpose: 371 Final Assignment — validity rules and drinker state rules
+;;;;            for the Polyjuice Potion.
+;;;; ---------------------------------------------------------------------------
+;;;;  modified: Mar 7, 2025
+;;;; ---------------------------------------------------------------------------
+
+(in-microtheory PolyjuicePotionMt)
+
+;;; -----------------------------------------------------------------------
+;;; BUG NOTE for team: polyjuicePotionrules.krf lines 51-65 assign all
+;;; PP_Steps to Draught_Of_Living_Death_Recipee instead of Polyjuice_Recipe.
+;;; Those lines must be corrected to (hasSteps Polyjuice_Recipe PP_StepN)
+;;; for step-order queries against this file to work correctly in the reasoner.
+;;; -----------------------------------------------------------------------
+
+;;; ---------------------------------------------------------------------------
+;;; attemptPerformsStep predicate (shared across all valid potion files)
+;;; Records which steps a brewing attempt actually carried out.
+;;; Defined here once — other valid potion files reuse this predicate.
+;;; ---------------------------------------------------------------------------
+
+(isa attemptPerformsStep BinaryPredicate)
+(arg1Isa attemptPerformsStep PotionAttempt)
+(arg2Isa attemptPerformsStep potionStep)
+(comment attemptPerformsStep
+  "(attemptPerformsStep ?attempt ?step) means the brewing attempt ?attempt
+   performed the step ?step during brewing.")
+
+;;; ---------------------------------------------------------------------------
+;;; requiredIngredient predicate
+;;; Lists the ingredients a recipe demands. Used to derive missing-ingredient
+;;; violations without relying on the (currently buggy) hasSteps link for PP.
+;;; ---------------------------------------------------------------------------
+
+(isa requiredIngredient BinaryPredicate)
+(arg1Isa requiredIngredient PotionRecipees)
+(arg2Isa requiredIngredient PotionIngredients)
+(comment requiredIngredient
+  "(requiredIngredient ?recipe ?ingredient) means ?ingredient must be present
+   in any valid brewing attempt of ?recipe.")
+
+;;; ---------------------------------------------------------------------------
+;;; Required ingredients for Polyjuice Potion
+;;; (sourced from stepIngredient facts in polyjuicePotionrules.krf)
+;;; ---------------------------------------------------------------------------
+
+(requiredIngredient Polyjuice_Recipe fluxWeed)            ;;; PP_Step1
+(requiredIngredient Polyjuice_Recipe knotgrassBundle)      ;;; PP_Step2
+(requiredIngredient Polyjuice_Recipe leeches)              ;;; PP_Step5
+(requiredIngredient Polyjuice_Recipe crushedLacewingScoop) ;;; PP_Steps 6 & 13
+(requiredIngredient Polyjuice_Recipe boomslangSkin)        ;;; PP_Step9
+(requiredIngredient Polyjuice_Recipe crushedBicornHorn)    ;;; PP_Step10
+(requiredIngredient Polyjuice_Recipe addPerson)            ;;; PP_Step15 — piece of target
+
+;;; ---------------------------------------------------------------------------
+;;; Valid Polyjuice Potion attempt instance
+;;; Represents a student who used all correct ingredients and performed
+;;; all 15 steps in the correct order.
+;;; ---------------------------------------------------------------------------
+
+(isa PolyjuiceAttempt1 PotionAttempt)
+
+(hasIngredient PolyjuiceAttempt1 fluxWeed)
+(hasIngredient PolyjuiceAttempt1 knotgrassBundle)
+(hasIngredient PolyjuiceAttempt1 leeches)
+(hasIngredient PolyjuiceAttempt1 crushedLacewingScoop)
+(hasIngredient PolyjuiceAttempt1 boomslangSkin)
+(hasIngredient PolyjuiceAttempt1 crushedBicornHorn)
+(hasIngredient PolyjuiceAttempt1 addPerson)
+
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step1)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step2)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step3)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step4)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step5)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step6)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step7)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step8)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step9)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step10)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step11)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step12)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step13)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step14)
+(attemptPerformsStep PolyjuiceAttempt1 PP_Step15)
+
+;;; ---------------------------------------------------------------------------
+;;; Validity rules — ingredient checking
+;;; ---------------------------------------------------------------------------
+
+;;; Derive that a required ingredient is missing from an attempt
+(<== (potionAttemptMissingIngredient ?attempt ?ingredient)
+     (isa ?attempt PotionAttempt)
+     (requiredIngredient Polyjuice_Recipe ?ingredient)
+     (not (hasIngredient ?attempt ?ingredient)))
+
+;;; Any missing ingredient makes the attempt invalid (mirrors validcureboilPotion.krf)
+(=> (potionAttemptMissingIngredient ?attempt ?ingredient)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; ---------------------------------------------------------------------------
+;;; Validity rules — step ordering
+;;; ---------------------------------------------------------------------------
+
+;;; Derive that steps are out of order: the attempt performed a step without
+;;; having first performed the step that must precede it.
+;;; Uses precedesStep facts defined in polyjuicePotionrules.krf.
+(<== (attemptHasStepsOutOfOrder ?attempt)
+     (attemptPerformsStep ?attempt ?step2)
+     (precedesStep ?step1 ?step2)
+     (not (attemptPerformsStep ?attempt ?step1)))
+
+;;; Steps performed out of order makes the attempt invalid
+(=> (attemptHasStepsOutOfOrder ?attempt)
+    (not (potionAttemptIsValid ?attempt)))
+
+;;; ---------------------------------------------------------------------------
+;;; Drinker state predicates specific to Polyjuice Potion
+;;; ---------------------------------------------------------------------------
+
+;;; (hasTargetPiece ?person ?target) — the drinker has added a physical piece
+;;; of ?target (hair, nail clipping, etc.) to their dose before drinking.
+(isa hasTargetPiece BinaryPredicate)
+(arg1Isa hasTargetPiece Animal)
+(arg2Isa hasTargetPiece Animal)
+(comment hasTargetPiece
+  "(hasTargetPiece ?drinker ?target) means ?drinker added a physical piece
+   of ?target to their dose of Polyjuice Potion before drinking.")
+
+;;; (targetPieceIsHuman ?person) — the piece added by ?person came from a
+;;; human. If false, the transformation will be incorrect/partial.
+(isa targetPieceIsHuman UnaryPredicate)
+(arg1Isa targetPieceIsHuman Animal)
+(comment targetPieceIsHuman
+  "(targetPieceIsHuman ?drinker) means the piece ?drinker added to their
+   dose is from a human, making a correct transformation possible.")
+
+;;; (isPolyjuiceTransformed ?person ?target) — ?person is currently
+;;; physically transformed into ?target via Polyjuice Potion.
+(isa isPolyjuiceTransformed BinaryPredicate)
+(arg1Isa isPolyjuiceTransformed Animal)
+(arg2Isa isPolyjuiceTransformed Animal)
+(comment isPolyjuiceTransformed
+  "(isPolyjuiceTransformed ?person ?target) means ?person is currently
+   transformed to look like ?target from drinking Polyjuice Potion.")
+
+;;; (incorrectlyTransformed ?person) — the drinker used a non-human piece
+;;; (e.g. Hermione using Millicent Bulstrode's cat hair) and is now in a
+;;; partial or animal-like transformation.
+(isa incorrectlyTransformed UnaryPredicate)
+(arg1Isa incorrectlyTransformed Animal)
+(comment incorrectlyTransformed
+  "(incorrectlyTransformed ?person) means ?person consumed Polyjuice Potion
+   using a non-human piece and is now partially or incorrectly transformed.")
+
+;;; ---------------------------------------------------------------------------
+;;; Drinker effect rules
+;;; ---------------------------------------------------------------------------
+
+;;; Case 1: Drinker is already in a Polyjuice transformation — no further effect.
+(=> (and (drinks ?person PolyjuiceAttempt1)
+         (isPolyjuiceTransformed ?person ?anyone))
+    (noEffectFromPotion ?person PolyjuiceAttempt1))
+
+;;; Case 2: Drinker has a human target piece and is not already transformed
+;;;         → drinker transforms into the target person.
+(=> (and (drinks ?person PolyjuiceAttempt1)
+         (hasTargetPiece ?person ?target)
+         (targetPieceIsHuman ?person)
+         (not (isPolyjuiceTransformed ?person ?anyone)))
+    (isPolyjuiceTransformed ?person ?target))
+
+;;; Case 3: Drinker added a non-human piece to their dose (wrong material)
+;;;         → partial / incorrect transformation occurs.
+(=> (and (drinks ?person PolyjuiceAttempt1)
+         (hasTargetPiece ?person ?target)
+         (not (targetPieceIsHuman ?person))
+         (not (isPolyjuiceTransformed ?person ?anyone)))
+    (incorrectlyTransformed ?person))
+
+;;; Case 4: Drinker did not add any target piece to their dose — no effect.
+(=> (and (drinks ?person PolyjuiceAttempt1)
+         (not (hasTargetPiece ?person ?anyone)))
+    (noEffectFromPotion ?person PolyjuiceAttempt1))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; End of Code
