@@ -19,10 +19,34 @@
 
 ;;; Any missing ingredient means the attempt is not valid.
 
-(=> (potionAttemptMissingIngredient ?attempt ?ing)
+(<== (potionAttemptMissingIngredient ?attempt ?ingredient)
+     (isa ?attempt PotionAttempt)
+     (requiredIngredient CureBoilsRecipe ?ingredient)
+     (not (hasIngredient ?attempt ?ingredient)))
+
+(=> (potionAttemptMissingIngredient ?attempt ?ingredient)
     (not (potionAttemptIsValid ?attempt)))
 
-;;; Any improper step means the attempt is not valid.
+;;; Any improper step order means the attempt is not valid.
+
+(<== (attemptHasStepsOutOfOrder ?attempt)
+     (attemptPerformsStep ?attempt ?step2)
+     (precedesStep ?step1 ?step2)
+     (not (attemptPerformsStep ?attempt ?step1)))
+
+(=> (attemptHasStepsOutOfOrder ?attempt)
+    (not (potionAttemptIsValid ?attempt)))
+;;; Attempt instance(isa CureBoilsAttempt1 PotionAttempt)
+
+(hasIngredient CureBoilsAttempt1 SnakeFangs)
+(hasIngredient CureBoilsAttempt1 HornedSlugs)
+(hasIngredient CureBoilsAttempt1 PorcupineQuills)
+
+(attemptPerformsStep CureBoilsAttempt1 CB_Step1)
+(attemptPerformsStep CureBoilsAttempt1 CB_Step2)
+(attemptPerformsStep CureBoilsAttempt1 CB_Step3)
+(attemptPerformsStep CureBoilsAttempt1 CB_Step4)
+(attemptPerformsStep CureBoilsAttempt1 CB_Step5)
 
 ;;; Assume that the potion is valid
 ;;; Check the state of the person / thing drinking cure boils
