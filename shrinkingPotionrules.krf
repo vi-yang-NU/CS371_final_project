@@ -10,7 +10,8 @@
 ;;;; ---------------------------------------------------------------------------
 
 ;;; we know that it is in the harry potter universe
-(in CureBoilPotionMt)
+(in-microtheory ShrinkingPotionMt)
+(isa ShrinkingPotionMt Microtheory)
 
 ;;; we know that cure boils is a potion and a recipee connected by potionHasRecipee
 (isa Shrinking_Potion Potion)

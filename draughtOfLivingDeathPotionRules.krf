@@ -9,7 +9,8 @@
 ;;;;  modified: Saturday, Feb 28th
 ;;;; ---------------------------------------------------------------------------
 
-(in DraughtOfLivingDeathPotionMt)
+(in-microtheory DraughtOfLivingDeathPotionMt)
+(isa DraughtOfLivingDeathPotionMt Microtheory)
 
 ;;; we know that draught of peace is a potion and a recipee connected by potionHasRecipee
 (isa Draught_Of_Living_Death_Potion Potion)
