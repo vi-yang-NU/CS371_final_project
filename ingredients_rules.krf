@@ -156,5 +156,5 @@
     )
 (<== (hasPotionEffect draughtofP_Potion ?attempt ?drinker)
     (hasCorrectIngredients draughtofP_Recipee ?attempt) ;; return true if ingredients are correct 
-    (atPeace ?drinker)
+    (not(atPeace ?drinker))
     )
