@@ -158,6 +158,3 @@
     (hasCorrectIngredients draughtofP_Recipee ?attempt) ;; return true if ingredients are correct 
     (atPeace ?drinker)
     )
-
-(<== (changeState ?drinker)
-    (hasPotionEffect ))
