@@ -64,4 +64,6 @@
      (hasBoils ?person)
      
     (hasIngredient ?attempt SnakeFangs)
-    (hasIngredient ?attempt H
+    (hasIngredient ?attempt HornedSlugs)
+    (hasIngredient ?attempt PorcupineQuills))
+
