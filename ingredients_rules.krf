@@ -135,7 +135,7 @@
 (arity isAwake 1)
 
 (isa atPeace Predicate)
-(arity atPeace 0)
+(arity atPeace 1)
 
 (<== (hasPotionEffect Cure_Boils_Potion ?attempt ?drinker)
     (hasCorrectIngredients Cure_Boils_Recipee ?attempt) ;; return true if ingredients are correct 
@@ -148,7 +148,7 @@
     )
 (<== (hasPotionEffect Shrinking_Potion ?attempt ?drinker)
     (hasCorrectIngredients ShrinkingPotion_Recipee ?attempt) ;; return true if ingredients are correct 
-    (hasShrunk ?drinker)
+    (not(hasShrunk ?drinker))
     )
 (<== (hasPotionEffect draughtOfLDP_Potion ?attempt ?drinker)
     (hasCorrectIngredients draughtOfLDP_Recipee ?attempt) ;; return true if ingredients are correct 
