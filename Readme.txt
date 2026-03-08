@@ -33,11 +33,11 @@ This leads us to potion effects, which will tell us if a potion will have the de
 ----------------------------------------------------- 
 HOW TO RUN 
 -----------------------------------------------------
-1. Upload a total of 8 files (
-    1. cureboilPotionrules.krf 
-    2. draughtofLivingDeathPotionRules.krf
-    3. draughtofPeacePotionrules.krf
-    4. ingredients_rules.krf
+1. Upload a total of 8 files in order (
+    1. ingredients_rules.krf 
+    2. cureboilPotionrules.krf 
+    3. draughtofLivingDeathPotionRules.krf
+    4. draughtofPeacePotionrules.krf 
     5. PolyjuicePotionrules.krf 
     6. potion_rules.krf 
     7. shrinkingPotionrules.krf. 

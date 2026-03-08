@@ -148,13 +148,17 @@
     )
 (<== (hasPotionEffect Shrinking_Potion ?attempt ?drinker)
     (hasCorrectIngredients ShrinkingPotion_Recipee ?attempt) ;; return true if ingredients are correct 
-    (not(hasShrunk ?drinker))
+    (not (hasShrunk ?drinker))
     )
-(<== (hasPotionEffect draughtOfLDP_Potion ?attempt ?drinker)
+(<== (hasPotionEffect draughtofLDP_Potion ?attempt ?drinker)
     (hasCorrectIngredients draughtOfLDP_Recipee ?attempt) ;; return true if ingredients are correct 
     (isAwake ?drinker)
     )
 (<== (hasPotionEffect draughtofP_Potion ?attempt ?drinker)
     (hasCorrectIngredients draughtofP_Recipee ?attempt) ;; return true if ingredients are correct 
+<<<<<<< Updated upstream
     (not(atPeace ?drinker))
+=======
+    (not (atPeace ?drinker))
+>>>>>>> Stashed changes
     )
