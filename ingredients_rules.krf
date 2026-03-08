@@ -16,7 +16,7 @@
 
 ;; make a new collection of all ingredients in HP world
 (isa PotionIngredients Collection)
-(genls PotionIngredients FoodOrDrinkOrIngredient) ;; existing collection found in KB
+;; (genls PotionIngredients FoodOrDrinkOrIngredient) ;; existing collection found in KB
 
 
 (isa PotionAttempt Collection)
