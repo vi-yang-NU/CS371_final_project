@@ -111,9 +111,7 @@
 (isAwake drinker2)
 
 
-
-
 (isa drinker3 drinker)
-
+(atPeace drinker3)
 
 
