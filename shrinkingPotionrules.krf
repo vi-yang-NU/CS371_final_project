@@ -161,4 +161,4 @@
 ;; (isa caterpillars PotionIngredients)
 ;; (isa Shrivelfig PotionIngredients)
 ;; (isa ratSpleens PotionIngredients)
-;; (isa leechJ
+;; (isa leechJuice PotionIngredients)
