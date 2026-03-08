@@ -14,7 +14,7 @@
 
 ;;; we know that draught of peace is a potion and a recipee connected by potionHasRecipee
 (isa PolyjuicePotion Potion)
-(isa Polyjuice_Recipe PotionRecipees)
+(isa Polyjuice_Recipee PotionRecipees)
 (potionHasRecipee PolyjuicePotion Polyjuice_Recipe)
 
 ;;; each potionHasRecipee has multiple steps we call potion step
