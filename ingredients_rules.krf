@@ -156,9 +156,5 @@
     )
 (<== (hasPotionEffect draughtofP_Potion ?attempt ?drinker)
     (hasCorrectIngredients draughtofP_Recipee ?attempt) ;; return true if ingredients are correct 
-<<<<<<< Updated upstream
-    (not(atPeace ?drinker))
-=======
     (not (atPeace ?drinker))
->>>>>>> Stashed changes
     )
