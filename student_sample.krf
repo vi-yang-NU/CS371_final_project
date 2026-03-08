@@ -19,13 +19,11 @@
 (genlMt PotionAttempt1Mt HarryPotterPotionsMt)
 
 
-
 (isa CureBoilsAttempt1 PotionAttempt)
 
 (hasIngredient CureBoilsAttempt1 SnakeFangs)
 (hasIngredient CureBoilsAttempt1 HornedSlugs)
 ;;; missing porcupine quills! 
-
 
 
 (isa CureBoilsAttempt2 PotionAttempt)
@@ -36,21 +34,4 @@
 (hasIngredient CureBoilsAttempt2 HornedSlugs)
 (hasIngredient CureBoilsAttempt2 PorcupineQuills)
 
-
-
-(isa drinker1 drinker)
-;; states of drinker 
-(hasBoils 1) ;; if take Cureboils then it's valid bc they got da boils 
-(hasShrunk 1) ;; if take shrinking potion it is false 
-
-(isa drinker2 drinker)
-(hasBoils 0) ;; if take Cureboils then it's valid bc they got da boils 
-(hasShrunk 0) ;; if take shrinking potion it is false 
-
-
-
-
-(isa drinker3 drinker)
-
-
-
+;; polyju
