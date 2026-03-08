@@ -26,6 +26,34 @@
 (arg1Isa hasIngredient PotionAttempt) 
 (arg2Isa hasIngredient PotionIngredients)
 
+
+;; list of ingredients 
+(isa SnakeFangs PotionIngredients)
+(isa HornedSlugs PotionIngredients)
+(isa PorcupineQuills PotionIngredients)
+(isa LacewingFly PotionIngredients)
+(isa Leeche PotionIngredients)
+(isa BicornHorn PotionIngredients)
+(isa Knotgrass PotionIngredients)
+(isa Fluxweed PotionIngredients)
+(isa BoomslangSkin PotionIngredients)
+(isa Shrivelfig PotionIngredients)
+(isa Caterpillars PotionIngredients)
+(isa ratSpleens PotionIngredients)
+(isa leechJuice PotionIngredients)
+(isa SopophorousBean PotionIngredients)
+(isa waterAndSalt PotionIngredients)
+(isa wormwood PotionIngredients)
+(isa valerianroots_water PotionIngredients)
+(isa sopophorusBeanJuice PotionIngredients)
+(isa powdered_root_Asphodel PotionIngredients)
+(isa powderedMoonstone PotionIngredients)
+(isa helleboreSyrup PotionIngredients)
+(isa stewedMandrake PotionIngredients)
+(isa powderedUnicornHorn PotionIngredients)
+(isa PorcupineQuills PotionIngredients)
+
+
 ;; adding CureBoils potion ingredients
 
 (<== (hasCorrectIngredients Cure_Boils_Recipee ?attempt)
@@ -67,7 +95,6 @@
     (hasIngredient ?attempt PorcupineQuills )) 
 
 ;; ingredient hazzards 
-
 
 (isa HazardAction Collection)
 (isa heat HazardAction)
