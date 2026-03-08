@@ -14,9 +14,9 @@
 ;;; some may fail some may sucueed 
 ;;; attempt 1: making cure boils but forgetting ingredient 
 
-(in-microtheory PotionAttempt1Mt)
-(isa PotionAttempt1Mt Microtheory)
-(genlMt PotionAttempt1Mt HarryPotterPotionsMt)
+(in-microtheory PotionAttemptsMt)
+(isa PotionAttemptsMt Microtheory)
+(genlMt PotionAttemptsMt HarryPotterPotionsMt)
 
 
 (isa CureBoilsAttempt1 PotionAttempt)
