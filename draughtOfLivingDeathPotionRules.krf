@@ -103,7 +103,7 @@
 ;; Cut up the Sopophorous Bean
 (stepAction DP_Step1 Incorporation-Physical)
 (stepTool DP_Step1 cauldron)
-(stepIngredient DP_Step1 powderedMoonstone)
+(stepIngredient DP_Step1 SopophorousBean)
 
 ;; Pour in 250 fl.oz. of Standard potioning water and add 5 oz. of African Sea Salt to the beaker. Set the beaker aside after all the water has been added. Be very careful not to shake or move the beaker now.
 (stepAction DP_Step2 Incorporation-Physical)
@@ -113,7 +113,7 @@
 ;; Leave the water and salt to rest for five minutes.
 (stepAction DP_Step3 Incorporation-Physical)
 (stepTool DP_Step3 beaker)
-(stepIngredient DP_Step3 powderedMoonstone)
+(stepIngredient DP_Step3 SopophorousBean)
 
 ;; Slowly pour all the water into the cauldron.
 (stepAction DP_Step4 Incorporation-Physical)
@@ -153,34 +153,4 @@
 (stepAction DP_Step9 Stir)
 (stepTool DP_Step9 cauldron)
 
-;; With your right hand stir the potion counterclockwise until the potion turns as clear as water; every stir should take approximately two and a half seconds.
-(stepAction DP_Step10 Stir)
-(stepTool DP_Step10 cauldron)
-
-;; Slowly put in seven square pieces of Valerian root.
-(stepAction DP_Step11 Incorporation-Physical)
-(stepTool DP_Step11 cauldron)
-(stepIngredient DP_Step11 valerianroots_water 7)
-
-;; Stir the potion ten times counterclockwise.
-(stepAction DP_Step12 Stir)
-(stepTool DP_Step12 cauldron)
-
-;; Add one hundred and fifty fl.oz. of Powdered Root of Asphodel.
-(stepAction DP_Step13 Incorporation-Physical)
-(stepTool DP_Step13 cauldron)
-(stepIngredient DP_Step13 powdered_root_Asphodel)
-
-;; Stir the potion ten times counterclockwise and eight times clockwise.
-(stepAction DP_Step14 Stir)
-(stepTool DP_Step14 cauldron)
-
-;; Leave the potion to settle for two and a half minutes.
-(stepAction DP_Step15 NoAction)
-(stepTool DP_Step15 cauldron)
-
-;; Add one small piece of Valerian root.
-(stepAction DP_Step16 Incorporation-Physical)
-(stepTool DP_Step16 cauldron)
-(stepIngredient DP_Step16 valerianroot)
-
+;; With your right hand stir the potion counterclockwise until the potio

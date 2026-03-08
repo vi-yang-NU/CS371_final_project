@@ -28,17 +28,108 @@
 
 ;; adding CureBoils potion ingredients
 
-(<== (hasCorrectIngredients Cure_Boils_Recipe ?attempt)
+(<== (hasCorrectIngredients Cure_Boils_Recipee ?attempt)
     (hasIngredient ?attempt SnakeFangs)
     (hasIngredient ?attempt HornedSlugs)
     (hasIngredient ?attempt PorcupineQuills))
 
 ;; adding polyjuice potion ingredients 
 
-(<== (hasCorrectIngredients Polyjuice_Recipe ?attempt)
+(<== (hasCorrectIngredients Polyjuice_Recipee ?attempt)
     (isa LacewingFly PotionIngredients)
     (isa Leeche PotionIngredients)
     (isa BicornHorn PotionIngredients)
     (isa Knotgrass PotionIngredients)
     (isa Fluxweed PotionIngredients)
     (isa BoomslangSkin PotionIngredients))
+
+(<== (hasCorrectIngredients ShrinkingPotion_Recipee ?attempt)
+    (isa Shrivelfig PotionIngredients)
+    (isa Caterpillars PotionIngredients)
+    (isa ratSpleens PotionIngredients)
+    (isa leechJuice PotionIngredients)
+    )
+
+(<== (hasCorrectIngredients draughtOfLDP_Recipee ?attempt)
+    (isa SopophorousBean PotionIngredients)
+    (isa waterAndSalt PotionIngredients)
+    (isa wormwood PotionIngredients)
+    (isa valerianroots_water PotionIngredients)
+    (isa sopophorusBeanJuice PotionIngredients)
+    (isa powdered_root_Asphodel PotionIngredients)
+    )
+
+(<== (hasCorrectIngredients draughtofP_Recipee ?attempt)
+    (isa powderedMoonstone PotionIngredients)
+    (isa helleboreSyrup PotionIngredients)
+    (isa stewedMandrake PotionIngredients)
+    (isa powderedUnicornHorn PotionIngredients)
+    (isa PorcupineQuills PotionIngredients)) 
+
+;; ingredient hazzards 
+
+
+(isa HazardAction Collection)
+(isa heat HazardAction)
+
+
+(isa HazardIngredient Collection)
+(isa PorcupineQuills HazardIngredient)
+(isa Shrivelfig HazardIngredient)
+
+(isa HazardTools Collection)
+(isa cauldron HazardTools)
+
+
+(<== (isHazard ?HazardIngredient ?action ?tool)
+    (isa HazardAction ?action)
+    (isa HazardTools ?tool)
+)
+
+
+(isa drinker Collection)
+
+;; Define potion effect validity 
+;; (<== (hasPotionEffect ?PotionAttempt ?drinker) 
+;;     (isa ?drinker valid) 
+;;     () 
+;; )
+;; (isa hasPotionEffect Predicate)
+
+(isa hasBoils Predicate)
+(arity hasBoils 1)
+;; (arg1Isa hasBoils drinker)
+
+(isa hasShrunk Predicate)
+(arity hasShrunk 0)
+
+(isa isAwake Predicate)
+(arity isAwake 1)
+
+(isa atPeace Predicate)
+(arity atPeace 0)
+
+(<== (hasPotionEffect Cure_Boils_Potion ?attempt ?drinker)
+    (hasCorrectIngredients Cure_Boils_Recipee ?attempt) ;; return true if ingredients are correct 
+    (hasBoils ?drinker) 
+    )
+(<== (hasPotionEffect Polyjuice_Potion ?attempt ?drinker ?drinker2)
+    (hasCorrectIngredients Polyjuice_Recipee ?attempt) ;; return true if ingredients are correct 
+    (different ?drinker ?drinker2) 
+    ;; additional stuff here 
+    )
+(<== (hasPotionEffect Shrinking_Potion ?attempt ?drinker)
+    (hasCorrectIngredients ShrinkingPotion_Recipee ?attempt) ;; return true if ingredients are correct 
+    (hasShrunk ?drinker)
+    )
+(<== (hasPotionEffect draughtOfLDP_Potion ?attempt ?drinker)
+    (hasCorrectIngredients draughtOfLDP_Recipee ?attempt) ;; return true if ingredients are correct 
+    (isAwake ?drinker)
+    )
+(<== (hasPotionEffect draughtofP_Potion ?attempt ?drinker)
+    (hasCorrectIngredients draughtofP_Recipee ?attempt) ;; return true if ingredients are correct 
+    (atPeace ?drinker)
+    )
+
+(<== (changeState ?drinker)
+    (hasPotionEffect ))

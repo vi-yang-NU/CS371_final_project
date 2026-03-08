@@ -23,10 +23,6 @@
      (isa ?attempt PotionAttempt)
      (requiredIngredient CureBoilsRecipe ?ingredient)
      (not (hasIngredient ?attempt ?ingredient)))
-
-(=> (potionAttemptMissingIngredient ?attempt ?ingredient)
-    (not (potionAttemptIsValid ?attempt)))
-
 ;;; Any improper step order means the attempt is not valid.
 
 (<== (attemptHasStepsOutOfOrder ?attempt)
@@ -34,8 +30,6 @@
      (precedesStep ?step1 ?step2)
      (not (attemptPerformsStep ?attempt ?step1)))
 
-(=> (attemptHasStepsOutOfOrder ?attempt)
-    (not (potionAttemptIsValid ?attempt)))
 ;;; Attempt instance(isa CureBoilsAttempt1 PotionAttempt)
 
 (hasIngredient CureBoilsAttempt1 SnakeFangs)
@@ -52,6 +46,7 @@
 ;;; Check the state of the person / thing drinking cure boils
 ;;; Person does not have boils --drinks--> No effect / No state change
 
+
 (=> (and (drinks ?person CureBoilsPotion)
          (not (hasBoils ?person)))
     (noEffectFromPotion ?person CureBoilsPotion))
@@ -62,3 +57,11 @@
          (hasBoils ?person))
     (and (curedOfBoils ?person)
          (not (hasBoils ?person))))
+
+
+(<== (cureBoilPotionEffect ?attempt ?person) 
+     (drinks ?person CureBoilsPotion)
+     (hasBoils ?person)
+     
+    (hasIngredient ?attempt SnakeFangs)
+    (hasIngredient ?attempt H

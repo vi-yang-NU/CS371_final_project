@@ -14,9 +14,9 @@
 ;;; some may fail some may sucueed 
 ;;; attempt 1: making cure boils but forgetting ingredient 
 
-(in-microtheory CureBoilsAttempt1Mt)
-(isa CureBoilsAttempt1Mt Microtheory)
-(genlMt CureBoilsAttempt1Mt HarryPotterPotionsMt)
+(in-microtheory PotionAttempt1Mt)
+(isa PotionAttempt1Mt Microtheory)
+(genlMt PotionAttempt1Mt HarryPotterPotionsMt)
 
 
 
@@ -35,3 +35,22 @@
 (hasIngredient CureBoilsAttempt2 SnakeFangs)
 (hasIngredient CureBoilsAttempt2 HornedSlugs)
 (hasIngredient CureBoilsAttempt2 PorcupineQuills)
+
+
+
+(isa drinker1 drinker)
+;; states of drinker 
+(hasBoils 1) ;; if take Cureboils then it's valid bc they got da boils 
+(hasShrunk 1) ;; if take shrinking potion it is false 
+
+(isa drinker2 drinker)
+(hasBoils 0) ;; if take Cureboils then it's valid bc they got da boils 
+(hasShrunk 0) ;; if take shrinking potion it is false 
+
+
+
+
+(isa drinker3 drinker)
+
+
+

@@ -1,0 +1,28 @@
+1. (isHazard PorcupineQuills heat cauldron) 
+
+2. (hasPotionEffect Cure_Boils_Potion drinker1)
+
+3. ;; test polyjuice potion somehow / the drinker who drank another drinker 
+
+4. 
+
+5. 
+
+6. 
+
+7. 
+
+8.
+ 
+9. 
+
+10. 
+
+11. 
+
+
+
+Limitations 
+    - we don't return the states of a potion drinker, therefore each drinker can only drink once 
+    - For polyjuice potion, drinker2 does not drink a potion, only drinker drinks polyjuice potion. 
+    - 

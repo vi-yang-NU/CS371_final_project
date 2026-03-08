@@ -107,12 +107,12 @@
 ;; Shake the peeled Shrivelfig until it is ready 
 (stepAction SP_Step4 Churning)
 (stepTool SP_Step4 FoodBlender)
-(stepIngredient SP_Step4 Shrivelfig)
+(stepIngredient SP_Step4 peeledShrivelfig)
 
-;; Add peeled Shrivelfig until the potion turns yellow.
+;; Add peeledShrivelfig until the potion turns yellow.
 (stepAction SP_Step5 Incorporation-Physical)
 (stepTool SP_Step5 cauldron)
-(stepIngredient SP_Step5 Shrivelfig)
+(stepIngredient SP_Step5 peeledShrivelfig)
 
 ;; Heat potion until it turns turquoise.
 (stepAction SP_Step6 Heat)
@@ -142,10 +142,10 @@
 (stepTool SP_Step10 cauldron)
 (stepIngredient SP_Step10 leechJuice 5)
 
-;; Add more of the Shrivelfig, this time till it turns pink.
+;; Add more of the peeledShrivelfig, this time till it turns pink.
 (stepAction SP_Step11 Incorporation-Physical)
 (stepTool SP_Step11 cauldron)
-(stepIngredient SP_Step11 Shrivelfig)
+(stepIngredient SP_Step11 peeledShrivelfig)
 
 ;; Add one sliced caterpillar.
 (stepAction SP_Step12 Incorporation-Physical)
