@@ -36,35 +36,35 @@
 ;; adding polyjuice potion ingredients 
 
 (<== (hasCorrectIngredients Polyjuice_Recipee ?attempt)
-    (isa LacewingFly PotionIngredients)
-    (isa Leeche PotionIngredients)
-    (isa BicornHorn PotionIngredients)
-    (isa Knotgrass PotionIngredients)
-    (isa Fluxweed PotionIngredients)
-    (isa BoomslangSkin PotionIngredients))
+    (hasIngredient ?attempt LacewingFly)
+    (hasIngredient ?attempt Leeche)
+    (hasIngredient ?attempt BicornHorn)
+    (hasIngredient ?attempt Knotgrass)
+    (hasIngredient ?attempt Fluxweed)
+    (hasIngredient ?attempt BoomslangSkin))
 
 (<== (hasCorrectIngredients ShrinkingPotion_Recipee ?attempt)
-    (isa Shrivelfig PotionIngredients)
-    (isa Caterpillars PotionIngredients)
-    (isa ratSpleens PotionIngredients)
-    (isa leechJuice PotionIngredients)
+    (hasIngredient ?attempt Shrivelfig)
+    (hasIngredient ?attempt Caterpillars)
+    (hasIngredient ?attempt ratSpleens)
+    (hasIngredient ?attempt leechJuice)
     )
 
 (<== (hasCorrectIngredients draughtOfLDP_Recipee ?attempt)
-    (isa SopophorousBean PotionIngredients)
-    (isa waterAndSalt PotionIngredients)
-    (isa wormwood PotionIngredients)
-    (isa valerianroots_water PotionIngredients)
-    (isa sopophorusBeanJuice PotionIngredients)
-    (isa powdered_root_Asphodel PotionIngredients)
+    (hasIngredient ?attempt SopophorousBean )
+    (hasIngredient ?attempt waterAndSalt )
+    (hasIngredient ?attempt wormwood )
+    (hasIngredient ?attempt valerianroots_water )
+    (hasIngredient ?attempt sopophorusBeanJuice )
+    (hasIngredient ?attempt powdered_root_Asphodel )
     )
 
 (<== (hasCorrectIngredients draughtofP_Recipee ?attempt)
-    (isa powderedMoonstone PotionIngredients)
-    (isa helleboreSyrup PotionIngredients)
-    (isa stewedMandrake PotionIngredients)
-    (isa powderedUnicornHorn PotionIngredients)
-    (isa PorcupineQuills PotionIngredients)) 
+    (hasIngredient ?attempt powderedMoonstone )
+    (hasIngredient ?attempt helleboreSyrup )
+    (hasIngredient ?attempt stewedMandrake )
+    (hasIngredient ?attempt powderedUnicornHorn )
+    (hasIngredient ?attempt PorcupineQuills )) 
 
 ;; ingredient hazzards 
 
@@ -81,9 +81,10 @@
 (isa cauldron HazardTools)
 
 
-(<== (isHazard ?HazardIngredient ?action ?tool)
-    (isa HazardAction ?action)
-    (isa HazardTools ?tool)
+(<== (isHazard ?ingredient ?action ?tool)
+    (isa ?ingredient HazardIngredient)
+    (isa ?action HazardAction )
+    (isa ?tool HazardTools )
 )
 
 

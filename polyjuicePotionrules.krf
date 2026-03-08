@@ -151,5 +151,4 @@
 (stepIngredient PP_Step15 addPerson 1)
 
 ;; Step 15 Wave your wand to complete the potion.
-(stepAction PP_Step12 NoAction)
-(stepTool PP_Step12 cauldron)
+(stepAction PP
