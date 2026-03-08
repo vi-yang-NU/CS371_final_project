@@ -172,4 +172,6 @@
 
 ;; Add powdered porcupine quills until the potion turns white. (Add exactly 7 drops)[6]
 (stepAction DP_Step16 Incorporation-Physical)
-(stepTool DP_Step16 cau
+(stepTool DP_Step16 cauldron)
+(stepIngredient DP_Step16 PorcupineQuills 7)
+
