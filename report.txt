@@ -79,13 +79,13 @@ hasPotionEffect
 
 ;; A person not at peace attempts to drink a failed potion of draughtofP_Potion
 13. (hasPotionEffect draughtofP_Potion draughtofPAttempt1 drinker1)
-        output->  
+        output->  ;;should be false  
 ;; A person not at peace attempts to drink a completed potion of draughtofP_Potion
 14. (hasPotionEffect draughtofP_Potion draughtofPAttempt2 drinker1)
-        output->  
+        output->   ;; should be true 
 ;; A person at peace attempts to drink a completed potion of draughtofP_Potion
 15. (hasPotionEffect draughtofP_Potion draughtofPAttempt2 drinker3)
-        output->  
+        output->  ;; should be false 
 
 
 Show off cases where it doesn't work as expected and share your analysis of why

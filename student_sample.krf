@@ -105,6 +105,7 @@
 ;; states of drinker 
 (hasBoils drinker1) ;; if take Cureboils then it's valid bc they got da boils 
 (hasNotShrunk drinker1) ;; has not shrunk 
+(notAtPeace drinker1)
 
 (isa drinker2 drinker)
 ;; (hasBoils 0) ;; if take Cureboils then it's valid bc they got da boils 
@@ -113,6 +114,5 @@
 
 
 (isa drinker3 drinker)
-(atPeace drinker3)
 
 
