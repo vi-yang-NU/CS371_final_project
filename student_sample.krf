@@ -34,4 +34,85 @@
 (hasIngredient CureBoilsAttempt2 HornedSlugs)
 (hasIngredient CureBoilsAttempt2 PorcupineQuills)
 
-;; po
+;; polyjuice potion 
+(isa PolyjuiceAttempt1 PotionAttempt)
+
+(hasIngredient PolyjuiceAttempt1 LacewingFly)
+(hasIngredient PolyjuiceAttempt1 Leeche)
+(hasIngredient PolyjuiceAttempt1 BicornHorn)
+(hasIngredient PolyjuiceAttempt1 Knotgrass)
+(hasIngredient PolyjuiceAttempt1 Fluxweed)
+
+(isa PolyjuiceAttempt2 PotionAttempt)
+
+(hasIngredient PolyjuiceAttempt2 LacewingFly)
+(hasIngredient PolyjuiceAttempt2 Leeche)
+(hasIngredient PolyjuiceAttempt2 BicornHorn)
+(hasIngredient PolyjuiceAttempt2 Knotgrass)
+(hasIngredient PolyjuiceAttempt2 BoomslangSkin)
+(hasIngredient PolyjuiceAttempt2 Fluxweed)
+
+
+;; Shrinking potion 
+(isa ShrinkingPotionAttempt1 PotionAttempt)
+(hasIngredient ShrinkingPotionAttempt1 Shrivelfig)
+(hasIngredient ShrinkingPotionAttempt1 Caterpillars)
+(hasIngredient ShrinkingPotionAttempt1 leechJuice)
+(hasIngredient ShrinkingPotionAttempt1 BoomslangSkin)
+(hasIngredient ShrinkingPotionAttempt1 LacewingFly)
+
+(isa ShrinkingPotionAttempt2 PotionAttempt)
+(hasIngredient ShrinkingPotionAttempt2 Shrivelfig)
+(hasIngredient ShrinkingPotionAttempt2 Caterpillars)
+(hasIngredient ShrinkingPotionAttempt2 ratSpleens)
+(hasIngredient ShrinkingPotionAttempt2 leechJuice)
+
+
+;; draughtOfLDP
+(isa draughtOfLDPAttempt1 PotionAttempt)
+(hasIngredient draughtOfLDPAttempt1 SopophorousBean)
+(hasIngredient draughtOfLDPAttempt1 waterAndSalt)
+(hasIngredient draughtOfLDPAttempt1 valerianroots_water)
+(hasIngredient draughtOfLDPAttempt1 sopophorusBeanJuice)
+(hasIngredient draughtOfLDPAttempt1 powdered_root_Asphodel)
+
+(isa draughtOfLDPAttempt2 PotionAttempt)
+(hasIngredient draughtOfLDPAttempt2 SopophorousBean)
+(hasIngredient draughtOfLDPAttempt2 waterAndSalt)
+(hasIngredient draughtOfLDPAttempt2 wormwood)
+(hasIngredient draughtOfLDPAttempt2 valerianroots_water)
+(hasIngredient draughtOfLDPAttempt2 sopophorusBeanJuice)
+(hasIngredient draughtOfLDPAttempt2 powdered_root_Asphodel)
+
+
+;; draughtofP
+(isa draughtofPAttempt1 PotionAttempt)
+(hasIngredient draughtofPAttempt1 powderedMoonstone)
+(hasIngredient draughtofPAttempt1 helleboreSyrup)
+(hasIngredient draughtofPAttempt1 powderedUnicornHorn)
+(hasIngredient draughtofPAttempt1 PorcupineQuills)
+
+(isa draughtofPAttempt2 PotionAttempt)
+(hasIngredient draughtofPAttempt2 powderedMoonstone)
+(hasIngredient draughtofPAttempt2 helleboreSyrup)
+(hasIngredient draughtofPAttempt2 stewedMandrake)
+(hasIngredient draughtofPAttempt2 powderedUnicornHorn)
+(hasIngredient draughtofPAttempt2 PorcupineQuills)
+
+
+
+(isa drinker1 drinker)
+;; states of drinker 
+(hasBoils drinker1) ;; if take Cureboils then it's valid bc they got da boils 
+(hasNotShrunk drinker1) ;; has not shrunk 
+(notAtPeace drinker1)
+
+(isa drinker2 drinker)
+;; (hasBoils 0) ;; if take Cureboils then it's valid bc they got da boils 
+(isAwake drinker2)
+;; implied to have shrunk 
+
+
+(isa drinker3 drinker)
+
+
