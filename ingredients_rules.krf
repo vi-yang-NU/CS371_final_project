@@ -128,8 +128,8 @@
 (arity hasBoils 1)
 ;; (arg1Isa hasBoils drinker)
 
-(isa hasShrunk Predicate)
-(arity hasShrunk 1)
+(isa hasNotShrunk Predicate)
+(arity hasNotShrunk 1)
 
 (isa isAwake Predicate)
 (arity isAwake 1)
@@ -148,7 +148,7 @@
     )
 (<== (hasPotionEffect Shrinking_Potion ?attempt ?drinker)
     (hasCorrectIngredients ShrinkingPotion_Recipee ?attempt) ;; return true if ingredients are correct 
-    (not (hasShrunk ?drinker))
+    (hasNotShrunk ?drinker)
     )
 (<== (hasPotionEffect draughtofLDP_Potion ?attempt ?drinker)
     (hasCorrectIngredients draughtOfLDP_Recipee ?attempt) ;; return true if ingredients are correct 

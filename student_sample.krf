@@ -104,11 +104,12 @@
 (isa drinker1 drinker)
 ;; states of drinker 
 (hasBoils drinker1) ;; if take Cureboils then it's valid bc they got da boils 
+(hasNotShrunk drinker1) ;; has not shrunk 
 
 (isa drinker2 drinker)
 ;; (hasBoils 0) ;; if take Cureboils then it's valid bc they got da boils 
-(hasShrunk drinker2) ;; shrunk 
 (isAwake drinker2)
+;; implied to have shrunk 
 
 
 (isa drinker3 drinker)

@@ -62,10 +62,10 @@ hasPotionEffect
         output-> False 
 ;; A not shrunk person drinks a shrinking potion
 8. (hasPotionEffect Shrinking_Potion ShrinkingPotionAttempt2 drinker1)
-        output-> 
+        output->  ;; shuold be true
 ;; A shrunk person drinks a shrinking potion
 9. (hasPotionEffect Shrinking_Potion ShrinkingPotionAttempt2 drinker2)
-        output-> 
+        output->  NONE ;; should fail 
 
 ;; An sleeping person attempts to drink a failed potion of draughtOfLDP_Potion
 10. (hasPotionEffect draughtofLDP_Potion draughtOfLDPAttempt1 drinker1)
